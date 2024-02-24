@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ProfilController;
@@ -10,8 +11,6 @@ use App\Http\Controllers\CourrierController;
 use App\Http\Controllers\ReceptionCourrierController;
 use App\Http\Controllers\ImputationController;
 use App\Http\Controllers\BordereauEnvoiController;
-
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,10 +23,19 @@ use App\Http\Controllers\BordereauEnvoiController;
 */
 
 Route::get('/', function () {
-    return view('dashboard');
+    return view('auth.login');
 });
 
-//SERVICES
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    //SERVICES
 Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
 Route::get('/services/create', [ServiceController::class, 'create'])->name('services.create');
 Route::post('/services', [ServiceController::class, 'store'])->name('services.store');
@@ -91,3 +99,6 @@ Route::post('/bordereau-envois', [BordereauEnvoiController::class, 'store'])->na
 Route::get('/bordereau-envois/{bordereauEnvoi}/edit', [BordereauEnvoiController::class, 'edit'])->name('bordereau_envois.edit');
 Route::put('/bordereau-envois/{bordereauEnvoi}', [BordereauEnvoiController::class, 'update'])->name('bordereau_envois.update');
 Route::delete('/bordereau-envois/{bordereauEnvoi}', [BordereauEnvoiController::class, 'destroy'])->name('bordereau_envois.destroy');
+});
+
+require __DIR__.'/auth.php';
