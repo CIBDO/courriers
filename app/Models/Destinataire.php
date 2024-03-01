@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Destinataire extends Model
 {
-    use HasFactory;
+    protected $primaryKey = 'id_destinateur';
+    protected $fillable = ['nom_destinataire'];
 }

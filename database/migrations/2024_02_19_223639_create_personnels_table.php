@@ -15,8 +15,6 @@ class CreatePersonnelsTable extends Migration
             $table->string('Matricule');
             $table->string('grade');
             $table->string('corps');
-            $table->string('mot_de_passe');
-            $table->foreignId('id_profil')->constrained('profils','id_profil');
             $table->foreignId('id_service')->constrained('services','id_service');
             $table->timestamps();
         });

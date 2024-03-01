@@ -4,62 +4,61 @@ namespace App\Http\Controllers;
 
 use App\Models\Expeditaire;
 use Illuminate\Http\Request;
+use HepplerDotNet\FlashToastr\Flash;
+
 
 class ExpeditaireController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $expeditaires = Expeditaire::all();
+        return view('pages.expeditaires.index', compact('expeditaires'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('expeditaires.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nom_expeditaire' => 'required|string|max:255',
+        ]);
+
+        Expeditaire::create($request->all());
+        Flash::info('success', 'Expéditaire créé avec succès.');    
+        return redirect()->route('expeditaires.index')
+            ->with('success', 'Expéditaire créé avec succès.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Expeditaire $expeditaire)
     {
-        //
+        return view('expeditaires.show', compact('expeditaire'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Expeditaire $expeditaire)
     {
-        //
+        return view('pages.expeditaires.edit', compact('expeditaire'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Expeditaire $expeditaire)
     {
-        //
+        $request->validate([
+            'nom_expeditaire' => 'required|string|max:255',
+        ]);
+
+        $expeditaire->update($request->all());
+        Flash::info('success', 'Expéditaire mis à jour avec succès.');
+        return redirect()->route('expeditaires.index')
+            ->with('success', 'Expéditaire mis à jour avec succès.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Expeditaire $expeditaire)
     {
-        //
+        $expeditaire->delete();
+        Flash::info('success', 'Expéditaire supprimé avec succès.');
+        return redirect()->route('expeditaires.index')
+            ->with('success', 'Expéditaire supprimé avec succès.');
     }
 }

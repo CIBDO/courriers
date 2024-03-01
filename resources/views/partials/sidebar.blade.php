@@ -12,7 +12,7 @@
 							<span class="nav-text">Services</span>
 						</a>
                         <ul aria-expanded="false">
-                            <li><a href="all-professors.html">Voir Services</a></li>                            
+                            <li><a href="{{route('services.index')}}">Voir Services</a></li>                            
                         </ul>
                     </li>
 					<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
@@ -20,8 +20,8 @@
 							<span class="nav-text">Personnel</span>
 						</a>
                         <ul aria-expanded="false">
-                            <li><a href="all-professors.html">Liste des Agents</a></li>
-                            <li><a href="all-professors.html">Liste des Signataires</a></li>
+                            <li><a href="{{route('personnels.index')}}">Liste des Agents</a></li>
+                            <li><a href="{{route('signataires.index')}}">Liste des Signataires</a></li>
                         </ul>
                     </li>
 					<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
@@ -29,16 +29,17 @@
 							<span class="nav-text">Courriers</span>
 						</a>
                         <ul aria-expanded="false">
-                            <li><a href="all-students.html">Type Courriers</a></li>
-                            <li><a href="all-students.html">Les Dispositions</a></li>
+                            <li><a href="{{route('courriers.index')}}">Type Courriers</a></li>
+                            <li><a href="{{route('dispositions.index')}}">Les Dispositions</a></li>
                         </ul>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
 							<i class="la la-users"></i>
-							<span class="nav-text">Expeditaires</span>
+							<span class="nav-text">Interlocuteurs</span>
 						</a>
                         <ul aria-expanded="false">
-                            <li><a href="all-students.html">Voir Expeditaires</a></li>
+                            <li><a href="{{route('expeditaires.index')}}">Voir Expeditaires</a></li>
+                            <li><a href="{{route('destinataires.index')}}">Voir Destinataires</a></li>
                         </ul>
                     </li>
 					<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">

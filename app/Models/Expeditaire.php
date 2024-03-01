@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Expeditaire extends Model
 {
-    use HasFactory;
+    protected $primaryKey = 'id_expeditaire';
+    protected $fillable = ['nom_expeditaire'];
 }

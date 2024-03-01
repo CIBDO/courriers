@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Courrier extends Model
 {
-    protected $primarykey = 'id_courrier';
+    protected $primaryKey = 'id_courrier';
     protected $fillable = ['type_courrier'];
 }

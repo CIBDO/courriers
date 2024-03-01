@@ -6,13 +6,15 @@ use App\Models\Personnel;
 use App\Models\Service;
 use App\Models\Profil;
 use Illuminate\Http\Request;
+use HepplerDotNet\FlashToastr\Flash;
 
 class PersonnelController extends Controller
 {
     public function index()
     {
         $personnels = Personnel::all();
-        return view('personnels.index', compact('personnels'));
+        $services = Service::all();
+        return view('pages.personnels.index', compact('personnels','services'));
     }
 
     public function create()
@@ -28,20 +30,19 @@ class PersonnelController extends Controller
             'Matricule' => 'required|string',
             'grade' => 'required|string',
             'corps' => 'required|string',
-            'mot_de_passe' => 'required|string',
-            'id_profil' => 'required|exists:profils,id',
-            'id_service' => 'required|exists:services,id',
+            'id_service' => 'required|exists:services,id_service',
         ]);
 
         Personnel::create($request->all());
-
+        Flash::info('success', 'Personnel créé avec succès.');
         return redirect()->route('personnels.index')
             ->with('success', 'Personnel créé avec succès.');
     }
 
     public function edit(Personnel $personnel)
     {
-        return view('personnels.edit', compact('personnel'));
+        $services = Service::all();
+        return view('pages.personnels.edit', compact('personnel','services'));
     }
 
     public function update(Request $request, Personnel $personnel)
@@ -52,13 +53,11 @@ class PersonnelController extends Controller
             'Matricule' => 'required|string',
             'grade' => 'required|string',
             'corps' => 'required|string',
-            'mot_de_passe' => 'required|string',
-            'id_profil' => 'required|exists:profils,id',
-            'id_service' => 'required|exists:services,id',
+            'id_service' => 'required|exists:services,id_service',
         ]);
 
         $personnel->update($request->all());
-
+        Flash::info('success', 'Personnel mis à jour avec succès');
         return redirect()->route('personnels.index')
             ->with('success', 'Personnel mis à jour avec succès');
     }
@@ -66,7 +65,7 @@ class PersonnelController extends Controller
     public function destroy(Personnel $personnel)
     {
         $personnel->delete();
-
+        Flash::info('success', 'Personnel supprimé avec succès');
         return redirect()->route('personnels.index')
             ->with('success', 'Personnel supprimé avec succès');
     }

@@ -9,14 +9,20 @@
     <title>Gestion des Courriers </title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
-    <link rel="stylesheet" href="vendor/jqvmap/css/jqvmap.min.css">
-	<link rel="stylesheet" href="vendor/chartist/css/chartist.min.css">
+    <link rel="stylesheet" href="{{asset('vendor/jqvmap/css/jqvmap.min.css')}}">
+	<link rel="stylesheet" href="{{asset('vendor/chartist/css/chartist.min.css')}}">
 	<!-- Summernote -->
-    <link href="vendor/summernote/summernote.css" rel="stylesheet">
-	<link rel="stylesheet" href="vendor/bootstrap-select/dist/css/bootstrap-select.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/skin-3.css">
+    <link href="{{asset('vendor/summernote/summernote.css')}}" rel="stylesheet">
+	<link rel="stylesheet" href="{{asset('vendor/bootstrap-select/dist/css/bootstrap-select.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('css/skin-3.css')}}">
 
+    <link rel="stylesheet" href="{{asset('assetss/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assetss/css/datatables.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assetss/css/style.css')}}">
+    {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css" rel="stylesheet" /> --}}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
 </head>
 
 <body>
@@ -45,9 +51,9 @@
         ***********************************-->
         <div class="nav-header">
             <a href="index.html" class="brand-logo">
-                <img class="logo-abbr" src="images/logo-white-3.png" alt="">
-                <img class="logo-compact" src="images/logo-text-white.png" alt="">
-                <img class="brand-title" src="images/logo-text-white.png" alt="">
+                <img class="logo-abbr" src="{{asset('images/logo-white-3.png')}}" alt="">
+                <img class="logo-compact" src="{{asset('images/logo-text-white.png')}}" alt="">
+                <img class="brand-title" src="{{asset('images/logo-text-white.png')}}" alt="">
             </a>
 
             <div class="nav-control">
@@ -75,7 +81,7 @@
         <!--**********************************
             Sidebar end
         ***********************************-->
-		
+        @include('flash-toastr::message') 
         <!--**********************************
             Content body start
         ***********************************-->
@@ -111,34 +117,45 @@
         Scripts
     ***********************************-->
     <!-- Required vendors -->
-    <script src="vendor/global/global.min.js"></script>
-	<script src="vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
-    <script src="js/custom.min.js"></script>
-    <script src="js/dlabnav-init.js"></script>	
+    <script src="{{asset('vendor/global/global.min.js')}}"></script>
+	<script src="{{asset('vendor/bootstrap-select/dist/js/bootstrap-select.min.js')}}"></script>
+    <script src="{{asset('js/custom.min.js')}}"></script>
+    <script src="{{asset('js/dlabnav-init.js')}}"></script>	
 	
 	<!-- Chart sparkline plugin files -->
-    <script src="vendor/jquery-sparkline/jquery.sparkline.min.js"></script>
-	<script src="js/plugins-init/sparkline-init.js"></script>
+    <script src="{{asset('vendor/jquery-sparkline/jquery.sparkline.min.js')}}"></script>
+	<script src="{{asset('js/plugins-init/sparkline-init.js')}}"></script>
 	
 	<!-- Chart Morris plugin files -->
-    <script src="vendor/raphael/raphael.min.js"></script>
-    <script src="vendor/morris/morris.min.js"></script> 
+    <script src="{{asset('vendor/raphael/raphael.min.js')}}"></script>
+    <script src="{{asset('vendor/morris/morris.min.js')}}"></script> 
 	
     <!-- Init file -->
-    <script src="js/plugins-init/widgets-script-init.js"></script>
+    <script src="{{asset('js/plugins-init/widgets-script-init.js')}}"></script>
 	
 	<!-- Demo scripts -->
-    <script src="js/dashboard/dashboard.js"></script>
+    <script src="{{asset('js/dashboard/dashboard.js')}}"></script>
 	
 	<!-- Summernote -->
-    <script src="vendor/summernote/js/summernote.min.js"></script>
+    <script src="{{asset('vendor/summernote/js/summernote.min.js')}}"></script>
     <!-- Summernote init -->
-    <script src="js/plugins-init/summernote-init.js"></script>
+    <script src="{{asset('js/plugins-init/summernote-init.js')}}"></script>
 	
 	<!-- Svganimation scripts -->
-    <script src="vendor/svganimation/vivus.min.js"></script>
-    <script src="vendor/svganimation/svg.animation.js"></script>
-    <script src="js/styleSwitcher.js"></script>
-		
+    <script src="{{asset('vendor/svganimation/vivus.min.js')}}"></script>
+    <script src="{{asset('vendor/svganimation/svg.animation.js')}}"></script>
+    <script src="{{asset('js/styleSwitcher.js')}}"></script>
+
+    <!-- =======  Data-Table  = End  ===================== -->
+    <!-- ============ Java Script Files  ================== -->
+
+
+    <script src="{{asset('assetss/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{asset('assetss/js/jquery-3.6.0.min.js')}}"></script>
+    <script src="{{asset('assetss/js/datatables.min.js')}}"></script>
+    <script src="{{asset('assetss/js/pdfmake.min.js')}}"></script>
+    <script src="{{asset('assetss/js/vfs_fonts.js')}}"></script>
+    <script src="{{asset('assetss/js/custom.js')}}"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script> --}}		
 </body>
 </html>

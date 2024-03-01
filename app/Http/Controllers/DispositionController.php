@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Disposition;
 use Illuminate\Http\Request;
+use HepplerDotNet\FlashToastr\Flash;
 
 class DispositionController extends Controller
 {
     public function index()
     {
         $dispositions = Disposition::all();
-        return view('dispositions.index', compact('dispositions'));
+        return view('pages.dispositions.index', compact('dispositions'));
     }
 
     public function create()
@@ -26,14 +27,14 @@ class DispositionController extends Controller
         ]);
 
         Disposition::create($request->all());
-
+        Flash::info('success', 'Disposition créée avec succès.');
         return redirect()->route('dispositions.index')
             ->with('success', 'Disposition créée avec succès.');
     }
 
     public function edit(Disposition $disposition)
     {
-        return view('dispositions.edit', compact('disposition'));
+        return view('pages.dispositions.edit', compact('disposition'));
     }
 
     public function update(Request $request, Disposition $disposition)
@@ -43,7 +44,7 @@ class DispositionController extends Controller
         ]);
 
         $disposition->update($request->all());
-
+        Flash::info('success', 'Disposition mise à jour avec succès');
         return redirect()->route('dispositions.index')
             ->with('success', 'Disposition mise à jour avec succès');
     }
@@ -51,7 +52,7 @@ class DispositionController extends Controller
     public function destroy(Disposition $disposition)
     {
         $disposition->delete();
-
+        Flash::info('success', 'Disposition supprimée avec succès');
         return redirect()->route('dispositions.index')
             ->with('success', 'Disposition supprimée avec succès');
     }

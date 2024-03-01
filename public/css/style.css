@@ -26824,4 +26824,9 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
     [data-theme-version="dark"] .footer .copyright p {
       color: #fff; }
 
+      .required {
+        color: red;
+        margin-left: 5px; /* Espacement entre le libellé et l'astérisque */
+    }
+
 /*# sourceMappingURL=style.css.map */

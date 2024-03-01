@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Personnel extends Model
@@ -14,8 +13,13 @@ class Personnel extends Model
         'Matricule',
         'grade',
         'corps',
-        'mot_de_passe',
-        'id_profil',
         'id_service',
     ];
+
+    // Relation vers le modèle Service
+    public function service()
+    {
+        return $this->belongsTo(Service::class, 'id_service');
+    }
 }
+

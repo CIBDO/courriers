@@ -11,6 +11,9 @@ use App\Http\Controllers\CourrierController;
 use App\Http\Controllers\ReceptionCourrierController;
 use App\Http\Controllers\ImputationController;
 use App\Http\Controllers\BordereauEnvoiController;
+use App\Http\Controllers\DestinataireController;
+use App\Http\Controllers\ExpeditaireController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,7 +44,7 @@ Route::get('/services/create', [ServiceController::class, 'create'])->name('serv
 Route::post('/services', [ServiceController::class, 'store'])->name('services.store');
 Route::get('/services/{service}/edit', [ServiceController::class, 'edit'])->name('services.edit');
 Route::put('/services/{service}', [ServiceController::class, 'update'])->name('services.update');
-Route::delete('/services/{service}', [ServiceController::class, 'destroy'])->name('services.destroy');
+Route::delete('/services{service}', [ServiceController::class, 'destroy'])->name('services.destroy');
 //PROFILS
 Route::get('/profils', [ProfilController::class, 'index'])->name('profils.index');
 Route::get('/profils/create', [ProfilController::class, 'create'])->name('profils.create');
@@ -84,6 +87,21 @@ Route::post('/reception-courriers', [ReceptionCourrierController::class, 'store'
 Route::get('/reception-courriers/{receptionCourrier}/edit', [ReceptionCourrierController::class, 'edit'])->name('reception_courriers.edit');
 Route::put('/reception-courriers/{receptionCourrier}', [ReceptionCourrierController::class, 'update'])->name('reception_courriers.update');
 Route::delete('/reception-courriers/{receptionCourrier}', [ReceptionCourrierController::class, 'destroy'])->name('reception_courriers.destroy');
+
+//DESTINATAIRES
+Route::get('/destinataires', [DestinataireController::class, 'index'])->name('destinataires.index');
+Route::get('/destinataires/create', [DestinataireController::class, 'create'])->name('destinataires.create');
+Route::post('/destinataires', [DestinataireController::class, 'store'])->name('destinataires.store');
+Route::get('/destinataires/{destinataire}/edit', [DestinataireController::class, 'edit'])->name('destinataires.edit');
+Route::put('/destinataires/{destinataire}', [DestinataireController::class, 'update'])->name('destinataires.update');
+Route::delete('/destinataires/{destinataire}', [DestinataireController::class, 'destroy'])->name('destinataires.destroy');
+//Expeditaires
+Route::get('/expeditaires', [ExpeditaireController::class, 'index'])->name('expeditaires.index');
+Route::get('/expeditaires/create', [ExpeditaireController::class, 'create'])->name('expeditaires.create');
+Route::post('/expeditaires', [ExpeditaireController::class, 'store'])->name('expeditaires.store');
+Route::get('/expeditaires/{expeditaire}/edit', [ExpeditaireController::class, 'edit'])->name('expeditaires.edit');
+Route::put('/expeditaires/{expeditaire}', [ExpeditaireController::class, 'update'])->name('expeditaires.update');
+Route::delete('/expeditaires/{expeditaire}', [ExpeditaireController::class, 'destroy'])->name('expeditaires.destroy');
 //IMPUTATIONS
 Route::get('/imputations', [ImputationController::class, 'index'])->name('imputations.index');
 Route::get('/imputations/create', [ImputationController::class, 'create'])->name('imputations.create');
