@@ -27,7 +27,7 @@ class ExpeditaireController extends Controller
         ]);
 
         Expeditaire::create($request->all());
-        Flash::info('success', 'Expéditaire créé avec succès.');    
+        Flash::info('success', 'Expéditeur créé avec succès.');    
         return redirect()->route('expeditaires.index')
             ->with('success', 'Expéditaire créé avec succès.');
     }
@@ -49,7 +49,7 @@ class ExpeditaireController extends Controller
         ]);
 
         $expeditaire->update($request->all());
-        Flash::info('success', 'Expéditaire mis à jour avec succès.');
+        Flash::info('success', 'Expéditeur mis à jour avec succès.');
         return redirect()->route('expeditaires.index')
             ->with('success', 'Expéditaire mis à jour avec succès.');
     }
@@ -57,7 +57,7 @@ class ExpeditaireController extends Controller
     public function destroy(Expeditaire $expeditaire)
     {
         $expeditaire->delete();
-        Flash::info('success', 'Expéditaire supprimé avec succès.');
+        Flash::info('success', 'Expéditeur supprimé avec succès.');
         return redirect()->route('expeditaires.index')
             ->with('success', 'Expéditaire supprimé avec succès.');
     }

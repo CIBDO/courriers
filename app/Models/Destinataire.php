@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Destinataire extends Model
 {
-    protected $primaryKey = 'id_destinateur';
+    protected $primaryKey = 'id_destinataire';
     protected $fillable = ['nom_destinataire'];
 }

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
 use App\Models\Imputation;
@@ -22,11 +21,14 @@ class ImputationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'id_reception_courrier' => 'required|exists:reception_courriers,id',
+            'id_courrier_reception' => 'required|exists:reception_courriers,id_courrier_reception',
             'date_imputation' => 'required|date',
-            'id_service' => 'required|exists:services,id',
-            'id_personnel' => 'required|exists:personnels,id',
-            'id_disposition' => 'required|exists:dispositions,id',
+            'origine' => 'required|string',
+            'objet' => 'required|string',
+            'id_courrier' => 'required|exists:courriers,id_courrier',
+            'id_service' => 'required|exists:services,id_service',
+            'id_personnel' => 'required|exists:personnels,id_personnel',
+            'id_disposition' => 'required|exists:dispositions,id_disposition',
             'observation' => 'nullable|string',
         ]);
 
@@ -34,6 +36,11 @@ class ImputationController extends Controller
 
         return redirect()->route('imputations.index')
             ->with('success', 'Imputation créée avec succès.');
+    }
+
+    public function show(Imputation $imputation)
+    {
+        return view('imputations.show', compact('imputation'));
     }
 
     public function edit(Imputation $imputation)
@@ -44,18 +51,21 @@ class ImputationController extends Controller
     public function update(Request $request, Imputation $imputation)
     {
         $request->validate([
-            'id_reception_courrier' => 'required|exists:reception_courriers,id',
+            'id_courrier_reception' => 'required|exists:reception_courriers,id_courrier_reception',
             'date_imputation' => 'required|date',
-            'id_service' => 'required|exists:services,id',
-            'id_personnel' => 'required|exists:personnels,id',
-            'id_disposition' => 'required|exists:dispositions,id',
+            'origine' => 'required|string',
+            'objet' => 'required|string',
+            'id_courrier' => 'required|exists:courriers,id_courrier',
+            'id_service' => 'required|exists:services,id_service',
+            'id_personnel' => 'required|exists:personnels,id_personnel',
+            'id_disposition' => 'required|exists:dispositions,id_disposition',
             'observation' => 'nullable|string',
         ]);
 
         $imputation->update($request->all());
 
         return redirect()->route('imputations.index')
-            ->with('success', 'Imputation mise à jour avec succès');
+            ->with('success', 'Imputation mise à jour avec succès.');
     }
 
     public function destroy(Imputation $imputation)
@@ -63,6 +73,6 @@ class ImputationController extends Controller
         $imputation->delete();
 
         return redirect()->route('imputations.index')
-            ->with('success', 'Imputation supprimée avec succès');
+            ->with('success', 'Imputation supprimée avec succès.');
     }
 }

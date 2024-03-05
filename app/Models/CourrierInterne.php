@@ -5,40 +5,44 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ReceptionCourrier extends Model
+class CourrierInterne extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'id_courrier_reception';
+    protected $primaryKey = 'id_courrierinterne';
 
     protected $fillable = [
         'reference',
-        'priorite',
-        'confidentialite',
-        'date_courrier',
-        'date_arrivee',
-        'expeditaire',
+        'date_creation',
+        'objet',
+        'id_expeditaire',
         'id_courrier',
-        'id_service',
+        'id_destinataire',
         'id_personnel',
-        'objet_courrier',
         'nbre_piece',
-        'charger_courrier',
         'statut',
+        'charger_courrier',
+        'observation',
     ];
+
+    public function expeditaire()
+    {
+        return $this->belongsTo(Expeditaire::class, 'id_expeditaire');
+    }
 
     public function courrier()
     {
         return $this->belongsTo(Courrier::class, 'id_courrier');
     }
 
-    public function service()
+    public function destinataire()
     {
-        return $this->belongsTo(Service::class, 'id_service');
+        return $this->belongsTo(Destinataire::class, 'id_destinataire');
     }
 
     public function personnel()
     {
         return $this->belongsTo(Personnel::class, 'id_personnel');
     }
+
 }

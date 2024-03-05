@@ -38,7 +38,7 @@
 							<span class="nav-text">Interlocuteurs</span>
 						</a>
                         <ul aria-expanded="false">
-                            <li><a href="{{route('expeditaires.index')}}">Voir Expeditaires</a></li>
+                            <li><a href="{{route('expeditaires.index')}}">Voir Expediteurs</a></li>
                             <li><a href="{{route('destinataires.index')}}">Voir Destinataires</a></li>
                         </ul>
                     </li>

@@ -14,6 +14,9 @@ class CreateImputationsTable extends Migration
             $table->id('id_imputation');
             $table->foreignId('id_courrier_reception')->constrained('reception_courriers','id_courrier_reception');
             $table->date('date_imputation');
+            $table->string('origine');
+            $table->text('objet');
+            $table->foreignId('id_courrier')->constrained('courriers','id_courrier');
             $table->foreignId('id_service')->constrained('services','id_service');
             $table->foreignId('id_personnel')->constrained('personnels','id_personnel');
             $table->foreignId('id_disposition')->constrained('dispositions','id_disposition');

@@ -7,13 +7,44 @@ use Illuminate\Database\Eloquent\Model;
 
 class Imputation extends Model
 {
-    protected $primarykey='id_imputation';
+    use HasFactory;
+
+    protected $primaryKey = 'id_imputation';
+
     protected $fillable = [
-        'id_reception_courrier',
+        'id_courrier_reception',
         'date_imputation',
+        'origine',
+        'objet',
+        'id_courrier',
         'id_service',
         'id_personnel',
         'id_disposition',
         'observation',
     ];
+
+    public function courrierReception()
+    {
+        return $this->belongsTo(ReceptionCourrier::class, 'id_courrier_reception');
+    }
+
+    public function courrier()
+    {
+        return $this->belongsTo(Courrier::class, 'id_courrier');
+    }
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class, 'id_service');
+    }
+
+    public function personnel()
+    {
+        return $this->belongsTo(Personnel::class, 'id_personnel');
+    }
+
+    public function disposition()
+    {
+        return $this->belongsTo(Disposition::class, 'id_disposition');
+    }
 }
