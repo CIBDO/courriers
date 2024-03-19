@@ -63,7 +63,7 @@
                     @csrf
                     <div class="form-group">
                         <label for="nom_expeditaire">expéditeur <span class="required">*</span></label>
-                        <input type="text" class="form-control" id_expeditaire="nom_expeditaire" name="nom_expeditaire" placeholder="expeditaire " required>
+                        <input type="text" class="form-control" id_expeditaire="nom_expeditaire" name="nom_expeditaire" placeholder="expediteur" required>
                     </div>
                     <!-- Add more fields as needed for expeditaire properties -->
                     <button type="submit" class="btn btn-primary">Soumettre</button>

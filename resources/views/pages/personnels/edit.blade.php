@@ -42,7 +42,7 @@
                                     <input type="text" class="form-control" id="Matricule" name="Matricule" value="{{ $personnel->Matricule }}" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="grade">Grade</label>
+                                    <label for="grade">Cadre</label>
                                     <input type="text" class="form-control" id="grade" name="grade" value="{{ $personnel->grade }}" required>
                                 </div>
                                 <div class="form-group">

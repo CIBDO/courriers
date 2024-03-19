@@ -11,18 +11,21 @@
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
     <link rel="stylesheet" href="{{asset('vendor/jqvmap/css/jqvmap.min.css')}}">
 	<link rel="stylesheet" href="{{asset('vendor/chartist/css/chartist.min.css')}}">
-	<!-- Summernote -->
-    <link href="{{asset('vendor/summernote/summernote.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('vendor/select2/css/select2.min.css')}}">
+    <link rel="stylesheet" href="{{asset('vendor/select2/js/select2.full.min.css')}}">
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> 
+	
 	<link rel="stylesheet" href="{{asset('vendor/bootstrap-select/dist/css/bootstrap-select.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <link rel="stylesheet" href="{{asset('css/skin-3.css')}}">
 
+
     <link rel="stylesheet" href="{{asset('assetss/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('assetss/css/datatables.min.css')}}">
     <link rel="stylesheet" href="{{asset('assetss/css/style.css')}}">
-    {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css" rel="stylesheet" /> --}}
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
+    
 </head>
 
 <body>
@@ -65,6 +68,7 @@
         <!--**********************************
             Nav header end
         ***********************************-->
+            
 
         <!--**********************************
             Header start
@@ -135,12 +139,7 @@
 	
 	<!-- Demo scripts -->
     <script src="{{asset('js/dashboard/dashboard.js')}}"></script>
-	
-	<!-- Summernote -->
-    <script src="{{asset('vendor/summernote/js/summernote.min.js')}}"></script>
-    <!-- Summernote init -->
-    <script src="{{asset('js/plugins-init/summernote-init.js')}}"></script>
-	
+
 	<!-- Svganimation scripts -->
     <script src="{{asset('vendor/svganimation/vivus.min.js')}}"></script>
     <script src="{{asset('vendor/svganimation/svg.animation.js')}}"></script>
@@ -156,6 +155,8 @@
     <script src="{{asset('assetss/js/pdfmake.min.js')}}"></script>
     <script src="{{asset('assetss/js/vfs_fonts.js')}}"></script>
     <script src="{{asset('assetss/js/custom.js')}}"></script>
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script> --}}		
+    
+
+   
 </body>
 </html>

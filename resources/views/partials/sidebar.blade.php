@@ -47,8 +47,8 @@
 							<span class="nav-text">Traitement de Courriers</span>
 						</a>
                         <ul aria-expanded="false">
-                            <li><a href="all-courses.html">Courriers Entrants</a></li>
-                            <li><a href="all-courses.html">Voir Entrants</a></li>
+                            <li><a href="{{route('reception_courriers.create')}}">Courriers Entrants</a></li>
+                            <li><a href="{{route('reception_courriers.index')}}">Voir Entrants</a></li>
                             <li><a href="all-courses.html">Courriers sortants</a></li>
                             <li><a href="add-courses.html">Voir Sortants</a></li>
                             <li><a href="edit-courses.html">Courriers Internes</a></li>

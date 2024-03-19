@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServiceController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\ImputationController;
 use App\Http\Controllers\BordereauEnvoiController;
 use App\Http\Controllers\DestinataireController;
 use App\Http\Controllers\ExpeditaireController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -85,8 +87,13 @@ Route::get('/reception-courriers', [ReceptionCourrierController::class, 'index']
 Route::get('/reception-courriers/create', [ReceptionCourrierController::class, 'create'])->name('reception_courriers.create');
 Route::post('/reception-courriers', [ReceptionCourrierController::class, 'store'])->name('reception_courriers.store');
 Route::get('/reception-courriers/{receptionCourrier}/edit', [ReceptionCourrierController::class, 'edit'])->name('reception_courriers.edit');
+Route::get('/reception-courriers/{receptionCourrier}/show', [ReceptionCourrierController::class, 'show'])->name('reception_courriers.show');
+Route::get('/reception-courriers/{receptionCourrier}/voir', [ReceptionCourrierController::class, 'voir'])->name('reception_courriers.voir');
 Route::put('/reception-courriers/{receptionCourrier}', [ReceptionCourrierController::class, 'update'])->name('reception_courriers.update');
 Route::delete('/reception-courriers/{receptionCourrier}', [ReceptionCourrierController::class, 'destroy'])->name('reception_courriers.destroy');
+Route::get('/reception-courriers/{receptionCourrier}/pdf', [ReceptionCourrierController::class, 'generatePdf'])->name('reception_courriers.pdf');
+Route::get('/reception-courriers/{receptionCourrier}/download', [ReceptionCourrierController::class, 'download'])->name('reception_courriers.download');
+
 
 //DESTINATAIRES
 Route::get('/destinataires', [DestinataireController::class, 'index'])->name('destinataires.index');
@@ -117,6 +124,19 @@ Route::post('/bordereau-envois', [BordereauEnvoiController::class, 'store'])->na
 Route::get('/bordereau-envois/{bordereauEnvoi}/edit', [BordereauEnvoiController::class, 'edit'])->name('bordereau_envois.edit');
 Route::put('/bordereau-envois/{bordereauEnvoi}', [BordereauEnvoiController::class, 'update'])->name('bordereau_envois.update');
 Route::delete('/bordereau-envois/{bordereauEnvoi}', [BordereauEnvoiController::class, 'destroy'])->name('bordereau_envois.destroy');
+
+Route::get('/reception_courriers/{id_reception_courrier}/pdf', [ReceptionCourrierController::class, 'generatePdf'])->name('reception_courriers.pdf');
+
+/* Route::get('reception_courriers/{id_courrier_reception}/upload', [AttachmentController::class, 'index']);
+Route::post('reception_courriers/{id_courrier_reception}/upload', [AttachmentController::class, 'store']);
+Route::get('attachments/{id}/delete', [AttachmentController::class, 'destroy']); */
+
+Route::post('/attachments/upload', [AttachmentController::class, 'upload']);
+Route::get('/attachments/{attachment}', [AttachmentController::class, 'show']);
+
+Route::get('/reception_courriers/{id_courrier_reception}/download', 'ReceptionCourrierController@downloadFile')->name('reception_courriers.download');
+Route::delete('/reception_courriers/{id_courrier_reception}/delete_file', 'ReceptionCourrierController@deleteFile')->name('reception_courriers.delete_file');
+
 });
 
 require __DIR__.'/auth.php';

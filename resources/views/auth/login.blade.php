@@ -28,6 +28,7 @@
                     <input class="input" type="text" name="name" placeholder="Username" required>
                     <input class="input" type="email" name="email" placeholder="Email" required>
                     <input class="input" type="password" name="password" placeholder="Password" required>
+                    <input class="input" type="password" name="password_confirmation" placeholder="Confirm Password" required>
                     <button type="submit">S'inscrire</button>
                 </form>
                 

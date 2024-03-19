@@ -83,7 +83,7 @@
                         <input type="text" class="form-control" id="Matricule" name="Matricule" placeholder=" Matricule" required>
                     </div>
                     <div class="form-group">
-                        <label for="grade">Grade <span class="required">*</span></label>
+                        <label for="grade">Cadre <span class="required">*</span></label>
                         <input type="text" class="form-control" id="grade" name="grade" placeholder="grade" required>
                     </div>
                     <div class="form-group">
@@ -92,7 +92,7 @@
                     </div>
                         <div class="form-group">
                                 <label>Choisir Service <span class="required">*</span></label>
-                                <select name="id_service" class="form-control controle select2" >
+                                <select class="form-control select2" name="id_service" >
                                 <option selected disabled>Sélectionner le Service</option>
                                     @foreach($services as $service)
                                     <option value="{{ $service->id_service }}">{{ $service->nom_service }}</option>
@@ -107,4 +107,9 @@
     </div>
 </div>
  
+<script>
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
+</script>
 @endsection
