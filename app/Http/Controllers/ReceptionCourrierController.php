@@ -11,7 +11,7 @@ use HepplerDotNet\FlashToastr\Flash;
 use Dompdf\Dompdf;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ReceptionCourrierController extends Controller
 {
@@ -49,8 +49,10 @@ class ReceptionCourrierController extends Controller
         $query->where('statut', 'like', '%' . $request->input('statut') . '%');
     }
     $query->orderByDesc('date_arrivee');
+
+    $receptionCourriers = $query->paginate(8); 
     // Exécuter la requête et obtenir les résultats
-    $receptionCourriers = $query->get();
+    /* $receptionCourriers = $query->get(); */
     $services = Service::all();
     $courriers = Courrier::all();
     $personnels = Personnel::all();
@@ -81,7 +83,7 @@ class ReceptionCourrierController extends Controller
             'id_personnel' => 'required|exists:personnels,id_personnel',
             'objet_courrier' => 'required|string',
             'nbre_piece' => 'required|integer|min:1',
-            'charger_courrier' => 'file|mimes:jpeg,png,pdf|max:2048',
+            'charger_courrier' => 'file|mimes:pdf|max:2048',
             'statut' => 'required|in:Traité,Reçu,en cours de traitement,Rejeté',
         ]);
         if ($request->hasFile('charger_courrier')) {
@@ -104,11 +106,8 @@ class ReceptionCourrierController extends Controller
         $receptionCourrier->objet_courrier = $request->objet_courrier;
         $receptionCourrier->nbre_piece = $request->nbre_piece;
         $receptionCourrier->statut = $request->statut;
-        // Assurez-vous d'ajouter les autres champs du formulaire ici
-        $receptionCourrier->charger_courrier = $filePath ?? null; // Assurez-vous de vérifier si $filePath existe avant de l'attribuer
-    
+        $receptionCourrier->charger_courrier = $filePath ?? null; 
         ReceptionCourrier::create($request->all()); 
-       /*  $receptionCourrier = ReceptionCourrier::create($request->all()); */
         Flash::info('success', 'Courrier réceptionné avec succès.');
         return redirect()->route('reception_courriers.create')
             ->with('success', 'Courrier réceptionné avec succès.'); 
@@ -130,13 +129,6 @@ class ReceptionCourrierController extends Controller
         return view('pages.reception_courriers.voir', compact('receptionCourrier','services','courriers','personnels'));
     }
  
-    /* public function show(ReceptionCourrier $receptionCourrier)
-    {
-        $services = Service::all();
-        $courriers = Courrier::all();
-        $personnels = Personnel::all();
-        return view('pages.reception_courriers.show', compact('receptionCourrier', 'services', 'courriers', 'personnels'));
-    } */
 
     public function edit(ReceptionCourrier $receptionCourrier)
     {
@@ -160,24 +152,20 @@ class ReceptionCourrierController extends Controller
             'id_personnel' => 'required|exists:personnels,id_personnel',
             'objet_courrier' => 'required|string',
             'nbre_piece' => 'required|integer|min:1',
-            'charger_courrier' => 'file|mimes:jpeg,png,pdf|max:2048',
+            'charger_courrier' => 'file|mimes:pdf|max:2048',
             'statut' => 'required|in:Traité,Reçu,en cours de traitement,Rejeté',
         ]);
         // Traitement du fichier chargé
         if ($request->hasFile('charger_courrier')) {
-            // Supprimer l'ancien fichier si nécessaire
             if ($receptionCourrier->charger_courrier) {
                 Storage::delete('public/fichier/courrier/' . basename($receptionCourrier->charger_courrier));
             }
-    
-            $file = $request->file('charger_courrier');
-            $originalName = $file->getClientOriginalName(); // Récupère le nom d'origine du fichier
-            $extension = $file->getClientOriginalExtension();
-            $newFileName = $originalName . '_' . time() . '.' . $extension; // Ajoute un timestamp pour rendre le nom unique
-            $file->storeAs('public/fichier/courrier/', $newFileName);
-            $request->merge(['charger_courrier' => '/fichier/courrier/' . $newFileName]);
 
+            $file = $request->file('charger_courrier');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $filePath = $file->storeAs('public/fichier/courrier', $fileName);
         }
+
         $receptionCourrier->update($request->all());
         Flash::info('success', 'Courrier réceptionné mis à jour avec succès.');
         return redirect()->route('reception_courriers.index')
@@ -209,32 +197,39 @@ public function generatePdf($id_courrier_reception)
     $pdf->render();
     return $pdf->stream('courrier.pdf');
 }
+
 public function downloadFile($id_courrier_reception)
-{
-    $receptionCourrier = ReceptionCourrier::findOrFail($id_courrier_reception);
-    
-    if ($receptionCourrier->charger_courrier) {
-        $filePath = storage_path('app/public/fichier/courrier/' . basename($receptionCourrier->charger_courrier));
-        if (file_exists($filePath)) {
-            return response()->download($filePath, basename($receptionCourrier->charger_courrier));
+    {
+        $receptionCourrier = ReceptionCourrier::findOrFail($id_courrier_reception);
+
+        if ($receptionCourrier->charger_courrier) {
+            $filePath = storage_path('app/public/fichier/courrier/' . basename($receptionCourrier->charger_courrier));
+            if (file_exists($filePath)) {
+                return response()->download($filePath, basename($receptionCourrier->charger_courrier));
+            } else {
+                return redirect()->back()->with('error', 'Le fichier n\'existe pas.');
+            }
         } else {
-            return redirect()->back()->with('error', 'Le fichier n\'existe pas.');
+            return redirect()->back()->with('error', 'Aucun fichier attaché.');
         }
-    } else {
-        return redirect()->back()->with('error', 'Aucun fichier attaché.');
     }
-}
 
-public function deleteFile($id_courrier_reception)
+    // Méthode pour supprimer le fichier attaché à un courrier reçu
+    public function deleteFile($id_courrier_reception)
+    {
+        $receptionCourrier = ReceptionCourrier::findOrFail($id_courrier_reception);
+
+        if ($receptionCourrier->charger_courrier) {
+            Storage::delete('public/fichier/courrier/' . basename($receptionCourrier->charger_courrier));
+            $receptionCourrier->charger_courrier = null;
+            $receptionCourrier->save();
+        }
+
+        return redirect()->back()->with('success', 'Le fichier a été supprimé avec succès.');
+    }
+    public function viewPdf($id_courrier_reception)
 {
     $receptionCourrier = ReceptionCourrier::findOrFail($id_courrier_reception);
-
-    if ($receptionCourrier->charger_courrier) {
-        Storage::delete('public/fichier/courrier/' . basename($receptionCourrier->charger_courrier));
-        $receptionCourrier->charger_courrier = null;
-        $receptionCourrier->save();
-    }
-
-    return redirect()->back()->with('success', 'Le fichier a été supprimé avec succès.');
+    return view('pages.reception_courriers.view_pdf', compact('receptionCourrier'));
 }
 }

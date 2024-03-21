@@ -137,6 +137,9 @@ Route::get('/attachments/{attachment}', [AttachmentController::class, 'show']);
 Route::get('/reception_courriers/{id_courrier_reception}/download', 'ReceptionCourrierController@downloadFile')->name('reception_courriers.download');
 Route::delete('/reception_courriers/{id_courrier_reception}/delete_file', 'ReceptionCourrierController@deleteFile')->name('reception_courriers.delete_file');
 
+Route::get('/reception_courriers/{id}/pdf', [ReceptionCourrierController::class, 'showPdf'])->name('reception_courriers.show_pdf');
+Route::get('/reception_courriers/{id}/download_pdf', [ReceptionCourrierController::class, 'downloadPdf'])->name('reception_courriers.download_pdf');
+
 });
 
 require __DIR__.'/auth.php';

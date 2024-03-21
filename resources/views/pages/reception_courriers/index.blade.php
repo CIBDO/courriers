@@ -85,7 +85,7 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody>               
                                 @foreach($receptionCourriers as $receptionCourrier)
                                 <tr>
                                     <td>{{ $receptionCourrier->reference }}</td>
@@ -107,9 +107,11 @@
                                         </form>
                                     </td>
                                 </tr>
-                                @endforeach
+                                @endforeach                             
                             </tbody>
                         </table>
+                         <!-- Afficher les liens de pagination -->
+                                {{ $receptionCourriers->links('pagination::bootstrap-5') }}
                     </div>
                 </div>
             </div>
