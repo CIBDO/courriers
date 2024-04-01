@@ -60,8 +60,9 @@
 							<span class="nav-text">Imputations</span>
 						</a>
                         <ul aria-expanded="false">
-                            <li><a href="all-library.html">Voir Imputations</a></li>
-                            <li><a href="all-library.html">Validations</a></li>
+                            <li><a href="{{route('imputations.index')}}">Imputer le Courrier</a></li>
+                            {{-- <li><a href="{{route('imputations.index')}} ">Voir les Imputations</a></li> --}}
+                            
                         </ul>
                     </li>
 					<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">

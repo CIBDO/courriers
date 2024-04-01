@@ -41,4 +41,8 @@ class ReceptionCourrier extends Model
     {
         return $this->belongsTo(Personnel::class, 'id_personnel');
     }
+    public function imputations()
+    {
+        return $this->hasMany(Imputation::class, 'id_courrier_reception');
+    }
 }

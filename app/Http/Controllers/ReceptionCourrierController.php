@@ -56,8 +56,8 @@ class ReceptionCourrierController extends Controller
     $services = Service::all();
     $courriers = Courrier::all();
     $personnels = Personnel::all();
-
-    return view('pages.reception_courriers.index', compact('receptionCourriers', 'services', 'courriers', 'personnels'));
+    $receptionCourriersWithImputations = ReceptionCourrier::with('imputations')->get();
+    return view('pages.reception_courriers.index', compact('receptionCourriers', 'services', 'courriers', 'personnels','receptionCourriersWithImputations'));
 }
 
 

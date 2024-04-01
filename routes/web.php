@@ -116,6 +116,8 @@ Route::post('/imputations', [ImputationController::class, 'store'])->name('imput
 Route::get('/imputations/{imputation}/edit', [ImputationController::class, 'edit'])->name('imputations.edit');
 Route::put('/imputations/{imputation}', [ImputationController::class, 'update'])->name('imputations.update');
 Route::delete('/imputations/{imputation}', [ImputationController::class, 'destroy'])->name('imputations.destroy');
+Route::get('/imputations/history', [ImputationController::class, 'history'])->name('imputations.history');
+Route::get('/fetch-courrier-details', [ImputationController::class, 'fetchCourrierDetails'])->name('fetchCourrierDetails');
 //BORDEREAU D'ENVOI
 
 Route::get('/bordereau-envois', [BordereauEnvoiController::class, 'index'])->name('bordereau_envois.index');

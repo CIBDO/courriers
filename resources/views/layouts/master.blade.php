@@ -17,12 +17,13 @@
     <!-- Vendor CSS -->
     <link rel="stylesheet" href="{{ asset('vendor/jqvmap/css/jqvmap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/chartist/css/chartist.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('vendor/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}">
     <!-- Skin CSS -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/skin-3.css') }}">
-   
+    <!-- Select2 CSS -->
+    <script src="{{ asset('assetss/js/jquery-3.6.0.min.js') }}"></script>
+    <link href="{{ asset('vendor/select2/css/select2.min.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -82,30 +83,26 @@
     <script src="{{ asset('vendor/svganimation/svg.animation.js') }}"></script>
     <script src="{{ asset('js/styleSwitcher.js') }}"></script>
 
-    <!-- jQuery (must be loaded before Select2) -->
-    <script src="{{ asset('assetss/js/jquery-3.6.0.min.js') }}"></script>
-     <!-- Select2 CSS (local fallback) -->
-    <link href="{{ asset('vendor/select2/css/select2.min.css') }}" rel="stylesheet">
-    <!-- Select2 JS (local fallback) -->
-    <script src="{{ asset('vendor/select2/js/select2.full.min.js') }}"></script>
+    <!-- Select2 JS -->
     <script src="{{ asset('vendor/select2/js/select2.full.min.js') }}"></script>
 
-<!-- Votre script personnalisé -->
-<script>
-    $(document).ready(function() {
-        // Initialisez Select2 sur les éléments nécessaires
-        $('.select2').select2();
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        // Initialisez Bootstrap Select sur les éléments nécessaires
-        $('.selectpicker').selectpicker();
-    });
-</script>
     <!-- DataTables -->
     <script src="{{ asset('assetss/js/datatables.min.js') }}"></script>
     <script src="{{ asset('assetss/js/pdfmake.min.js') }}"></script>
     <script src="{{ asset('assetss/js/vfs_fonts.js') }}"></script>
+
+    <!-- Votre script personnalisé -->
+    <script>
+        $(document).ready(function() {
+            // Initialisez Select2 sur les éléments nécessaires
+            $('.select2').select2();
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Initialisez Bootstrap Select sur les éléments nécessaires
+            $('.selectpicker').selectpicker();
+        });
+    </script>
 </body>
 </html>
