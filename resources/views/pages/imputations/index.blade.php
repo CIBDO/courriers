@@ -1,5 +1,4 @@
  @extends('layouts.master')
-
 @section('content')
 <div class="content-body">
     <!-- row -->
@@ -16,23 +15,22 @@
                             <table id="example" class="able table-striped table-bordered" style="min-width: 1230px">
                                 <thead class="table-info">
                                     <tr>
-                                        <th>Référence Courrier</th>
+                                        <th>Référence</th>
+                                        <th>Services</th>
+                                        <th>Utilisateurs</th>
+                                        <th>Annotations</th>
                                         <th>Date d'Imputation</th>
-                                        <th>Origine</th>
-                                        <th>Objet</th>
-                                        <!-- Ajoutez d'autres champs d'imputation ici -->
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- Iterate through imputation data -->
                                     @foreach($imputations as $imputation)
                                     <tr>
                                         <td>{{ $imputation->courrierReception->reference }}</td>
+                                        <td>{{ $imputation->service->nom_service }}</td>
+                                        <td>{{ $imputation->personnel->prenom_personnel }} {{ $imputation->personnel->nom_personnel }}</td>
+                                        <td>{{ $imputation->disposition->nom_disposition }}</td>
                                         <td>{{ $imputation->date_imputation }}</td>
-                                        <td>{{ $imputation->origine }}</td>
-                                        <td>{{ $imputation->courrierReception->objet }}</td>
-                                        <!-- Ajoutez d'autres colonnes pour afficher les autres détails de l'imputation -->
                                         <td>                 
                                             <!-- Ajoutez des actions ici si nécessaire -->
                                         </td>
@@ -50,7 +48,7 @@
 
 <!-- Add Imputation Modal -->
 <div class="modal fade" id="addImputationModal" tabindex="-1" role="dialog" aria-labelledby="addImputationModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addImputationModalLabel">Ajouter Imputation de Courrier</h5>
@@ -59,48 +57,76 @@
                 </button>
             </div>
             <div class="modal-body">
-                <!-- Form to add a new imputation -->
-                <form action="{{ route('imputations.store') }}" method="POST" id="imputationForm">
-                    @csrf
-                    <div class="form-group">
-                        <label for="id_courrier_reception">Référence Courrier <span class="required">*</span></label>
-                        <select class="form-control select2" id="id_courrier_reception" name="reference" data-live-search="true" data-live-search-placeholder="Recherche">
-                            <option selected disabled>Choisir la Référence du Courrier</option>
-                            @foreach($receptionCourrier as $receptionCourrier)
-                                <option value="{{ $receptionCourrier->id_courrier_reception }}">{{ $receptionCourrier->reference }}</option>
-                            @endforeach
-                        </select>
+                <div class="row">
+                    <div class="col-md-6">
+                        <form action="{{ route('imputations.store') }}" method="POST" id="imputationForm">
+                            @csrf
+                            <div class="form-group">
+                                <label for="id_courrier_reception">Référence Courrier <span class="required">*</span></label>
+                                <select class="form-control " id="id_courrier_reception" name="id_courrier_reception" data-live-search="true" data-live-search-placeholder="Recherche" required>
+                                    <option selected disabled>Choisir la Référence du Courrier</option>
+                                    @foreach($receptionCourrier as $reception)
+                                        <option value="{{ $reception->id_courrier_reception }}">{{ $reception->reference }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="origine">Origine <span class="required">*</span></label>
+                                <input type="text" class="form-control" id="origine" name="origine" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="objet">Objet <span class="required">*</span></label>
+                                <textarea class="form-control" id="objet" name="objet" rows="3" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="type_courrier">Type Courrier</label>
+                                <input type="text" class="form-control" id="type_courrier" name="type_courrier" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="date_imputation">Date d'Imputation <span class="required">*</span></label>
+                                <input type="date" class="form-control" id="date_imputation" name="date_imputation" value="{{ date('Y-m-d') }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Service <span class="required">*</span></label>
+                                <select class="form-control " id="nom_service" name="id_service" required>
+                                    <option selected disabled>Choisir le service</option>
+                                    @foreach($services as $service)
+                                        <option value="{{ $service->id_service }}">{{ $service->nom_service }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Chargée du suivi <span class="required">*</span></label>
+                                <select class="form-control " name="id_personnel" required>
+                                    <option selected disabled>Choisir chargée du suivi</option>
+                                    @foreach($personnels as $personnel)
+                                        <option value="{{ $personnel->id_personnel }}">{{ $personnel->prenom_personnel }} {{ $personnel->nom_personnel }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Annotation <span class="required">*</span></label>
+                                <select class="form-control " name="id_disposition" required>
+                                    <option selected disabled>Choisir annotation</option>
+                                    @foreach($dispositions as $disposition)
+                                        <option value="{{ $disposition->id_disposition }}">{{ $disposition->nom_disposition }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Observations</label>
+                                <textarea class="form-control" name="observation" rows="3"></textarea>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="date_imputation">Date d'Imputation <span class="required">*</span></label>
-                        <input type="date" class="form-control" id="date_imputation" name="date_imputation" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="origine">Origine <span class="required">*</span></label>
-                        <input type="text" class="form-control" id="origine" name="origine" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="objet">Objet <span class="required">*</span></label>
-                        <input type="text" class="form-control" id="objet" name="objet" required>
-                    </div>
-                    <!-- Ajoutez d'autres champs d'imputation ici -->
-                    <!-- Exemple :
-                    <div class="form-group">
-                        <label for="id_service">Service <span class="required">*</span></label>
-                        <select class="form-control" id="id_service" name="id_service">
-                            <option value="1">Service 1</option>
-                            <option value="2">Service 2</option>
-                            ...
-                        </select>
-                    </div>
-                    -->
                     <button type="submit" class="btn btn-primary">Soumettre</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
 <script>
     $(document).ready(function() {
         $('.select2').select2();
@@ -118,6 +144,7 @@
                         if (response) {
                             $('#origine').val(response.expeditaire);
                             $('#objet').val(response.objet_courrier);
+                            $('#type_courrier').val(response.type_courrier); // Mettre à jour le champ "type_courrier"
                             // Set other fields accordingly
                         }
                     }

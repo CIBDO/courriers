@@ -14,6 +14,7 @@ use App\Http\Controllers\ImputationController;
 use App\Http\Controllers\BordereauEnvoiController;
 use App\Http\Controllers\DestinataireController;
 use App\Http\Controllers\ExpeditaireController;
+use App\Http\Controllers\DashboardController;
 
 
 /*
@@ -31,9 +32,11 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::get('/dashboard', function () {
+/* Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard'); */
+Route::get('/', [DashboardController::class, 'index'])->name('home')->middleware('auth');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -126,6 +129,9 @@ Route::post('/bordereau-envois', [BordereauEnvoiController::class, 'store'])->na
 Route::get('/bordereau-envois/{bordereauEnvoi}/edit', [BordereauEnvoiController::class, 'edit'])->name('bordereau_envois.edit');
 Route::put('/bordereau-envois/{bordereauEnvoi}', [BordereauEnvoiController::class, 'update'])->name('bordereau_envois.update');
 Route::delete('/bordereau-envois/{bordereauEnvoi}', [BordereauEnvoiController::class, 'destroy'])->name('bordereau_envois.destroy');
+Route::get('/bordereau_envois/{bordereauEnvoi}/pdf', [BordereauEnvoiController::class, 'generatePdf'])->name('bordereau_envois.pdf');
+Route::get('/bordereau_envois/{bordereauEnvoi}/voir', [BordereauEnvoiController::class, 'voir'])->name('bordereau_envois.voir');
+
 
 Route::get('/reception_courriers/{id_reception_courrier}/pdf', [ReceptionCourrierController::class, 'generatePdf'])->name('reception_courriers.pdf');
 

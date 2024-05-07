@@ -92,7 +92,7 @@
                     </div>
                         <div class="form-group">
                                 <label>Choisir Service <span class="required">*</span></label>
-                                <select class="form-control select2" name="id_service" >
+                                <select class="form-control " name="id_service" >
                                 <option selected disabled>Sélectionner le Service</option>
                                     @foreach($services as $service)
                                     <option value="{{ $service->id_service }}">{{ $service->nom_service }}</option>

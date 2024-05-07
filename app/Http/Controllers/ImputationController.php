@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ImputationHistory;
+/* use App\Models\ImputationHistory; */
 use App\Models\Imputation;
 use App\Models\ReceptionCourrier;
 use App\Models\Courrier;
@@ -24,7 +24,7 @@ class ImputationController extends Controller
         $services = Service::all();
         $personnels = Personnel::all();
         $dispositions = Disposition::all(); // Assurez-vous que cette variable est définie et récupérée depuis la source appropriée
-        return view('pages.imputations.index', compact('imputations', 'receptionCourrier', 'courriers', 'services', 'personnels', 'dispositions'));
+        return view('pages.imputations.index', compact('imputations','receptionCourrier', 'courriers', 'services', 'personnels', 'dispositions'));
     }
 
 
@@ -48,30 +48,47 @@ class ImputationController extends Controller
         $personnels = Personnel::all();
         $dispositons = Disposition::all();
         $courriers = Courrier::all();
-        return view('pages.imputations.create', compact('services', 'personnels', 'dispositions', 'courriers', 'receptionCourrier'));
+        $imputation = new Imputation(); // Définir $imputation comme une nouvelle instance vide
+        return view('pages.imputations.create', compact('imputations','services', 'personnels', 'dispositions', 'courriers', 'receptionCourrier'));
     }
+     
     public function store(Request $request)
     {
+         dd($request->all()); 
         $request->validate([
             'id_courrier_reception' => 'required|exists:reception_courriers,id_courrier_reception',
             'date_imputation' => 'required|date',
-            /* 'origine' => 'required|string',
-            'objet' => 'required|string', */
             'id_courrier' => 'required|exists:courriers,id_courrier',
             'id_service' => 'required|exists:services,id_service',
             'id_personnel' => 'required|exists:personnels,id_personnel',
             'id_disposition' => 'required|exists:dispositions,id_disposition',
             'observation' => 'nullable|string',
         ]);
-
-        Imputation::create($request->all());
+        
+        // Créer une nouvelle instance d'imputation en utilisant les champs nécessaires
+        $imputationData = $request->only([
+            'id_courrier_reception',
+            'date_imputation',
+            'id_courrier',
+            'observation',
+        ]);
+    
+        // Ajouter les clés étrangères pour les champs "service", "personnel" et "disposition"
+        $imputationData['id_service'] = $request->input('id_service');
+        $imputationData['id_personnel'] = $request->input('id_personnel');
+        $imputationData['id_disposition'] = $request->input('id_disposition');
+    
+        // Enregistrer l'imputation avec les données récupérées
+        Imputation::create($imputationData);
+    
+        // Redirection avec un message de succès
         Flash::info('success', 'Imputation créée avec succès.');
-        return redirect()->route('imputations.index')
-            ->with('success', 'Imputation créée avec succès.');
+        return redirect()->route('imputations.index')->with('success', 'Imputation créée avec succès.');
     }
-
+    
     public function show(Imputation $imputation)
     {
+        $imputations = Imputation::all();
         $services = Service::all();
         $personnels = Personnel::all();
         $dispositons = Disposition::all();
@@ -88,6 +105,7 @@ class ImputationController extends Controller
 
     public function edit(Imputation $imputation)
     {
+        $imputations = Imputation::all();
         $services = Service::all();
         $personnels = Personnel::all();
         $dispositons = Disposition::all();
@@ -129,19 +147,24 @@ class ImputationController extends Controller
         return redirect()->route('pages.imputations.index')
             ->with('success', 'Imputation supprimée avec succès.');
     }
-    public function history(Request $request)
+    /* public function history(Request $request)
     {
         $id_courrier_reception = $request->input('id_courrier_reception');
         $imputationHistory = ImputationHistory::where('id_courrier_reception', $id_courrier_reception)->get();
         return view('imputations.history', compact('imputationHistory'));
-    }
+    } */
     public function fetchCourrierDetails(Request $request)
     {
         $id_courrier_reception = $request->input('id');
         $receptionCourrier = ReceptionCourrier::findOrFail($id_courrier_reception);
+        $type_courrier = null;
+        if ($receptionCourrier->courrier && $receptionCourrier->courrier->type_courrier) {
+            $type_courrier = $receptionCourrier->courrier->type_courrier;
+        }
         return response()->json([
             'expeditaire' => $receptionCourrier->expeditaire,
             'objet_courrier' => $receptionCourrier->objet_courrier,
+            'type_courrier' => $type_courrier,
             // Ajoutez d'autres détails du courrier ici
         ]);
     }

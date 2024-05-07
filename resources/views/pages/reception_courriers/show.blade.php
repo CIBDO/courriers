@@ -1,5 +1,4 @@
-
- <!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -10,14 +9,14 @@
         body {
             margin: 10px;
             padding: 10px;
-            font-family: sans-serif;
+            font-family: Arial, sans-serif;
         }
         h1,h2,h3,h4,h5,h6,p,span,label {
-            font-family: sans-serif;
-            line-height: 1.2; 
+            font-family: Arial, sans-serif;
+            line-height: 1; 
         }
         p.section-heading {
-            line-height: 1.2; /* Ajuster l'interligne pour les h5 */
+            line-height: 1; /* Ajuster l'interligne pour les h5 */
         }
         table {
             width: 100%;
@@ -25,9 +24,9 @@
             margin-bottom: 0px !important;
         }
         table thead th {
-            height: 28px;
+            height: 20px;
             text-align: left;
-            font-size: 16px;
+            font-size: 14px;
             font-family: sans-serif;
         }
         table, th, td {
@@ -47,7 +46,7 @@
             font-family: sans-serif;
         }
         .total-heading {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
             font-family: sans-serif;
         }
@@ -82,16 +81,43 @@
             background-color: #414ab1;
             color: #fff;
         }
-        
-        
+        .right-align {
+            float: right; /* Aligner à droite */
+        }
+        .left-align {
+            float: left; /* Aligner à gauche */
+        }
+        .header {
+            margin-bottom: 20px;
+        }
+        .header p {
+            margin: 5px 0;
+        }
+        .entete1 {
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: 22px; 
+}
+.signature {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 18px; 
+  font-weight: bold;
+}
+.signature1 {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 20px; 
+  font-weight: bold;
+}
     </style>
 </head>
-<body>
+<body>  
 
-    
-                    <pre><b>Ministère de l'Economie et des Finances      République du Mali</b></pre>
-                    <pre><b>Trésorerie Régionale de Sikasso           Un Peuple - Un But - Une Foi</b></pre>     
-                    <H2><center>FICHE DE CIRCULATION DE COURRIER "ARRIVEE"</center></H2> 
+<div class="header">
+    <p>DIRECTION NATIONALE DU TRESOR <span class="right-align">REPUBLIQUE DU MALI</span></p>
+    <p>ET DE LA COMPTABILITE PUBLIQUE <span class="right-align">Un Peuple - Un But - Une Foi</span> </p>
+    <p style="margin-left: 45px;">_=_=_=_=_=_=_=_</p>
+    <p >TRESORERIER REGIONAL DE SIKASSO</p>
+</div>
+<H2><center>FICHE DE CIRCULATION DE COURRIER "ARRIVEE"</center></H2> 
     <table class="order-details">
         <thead>  
             <tr class="bg-blue">
@@ -123,15 +149,14 @@
         </tr>
     </table>
     <table class="order-details">
-    <p class="section-heading"><center>OBJET</center></p>
+    <div class="section-heading"><center>OBJET</center></div>
         <thead>
             <tr>            
-                    <td><b>{{ $receptionCourrier->objet_courrier }}</b></td>
+                <td><b>{{ $receptionCourrier->objet_courrier }}</b></td>
             </tr>
     </table>
-    
+    <div class="section-heading"><center>IMPUTATION</center></div>
     <table border="1">
-    <p class="section-heading"><center>IMPUTATION</center></p>
     <tr>
         <td></td>
         <td>Trésorier Payeur</td>
@@ -153,18 +178,18 @@
         <td>Div. Centralisation</td>
     </tr>
     <tr>
-        <td></td>
+        <td>__</td>
         <td>Secrétariat</td>
-        <td></td>
+        <td>__</td>
         <td>Comptabilité Matières</td>
-        <td></td>
+        <td>__</td>
         <td>Toutes les Divisions</td>
-        <td></td>
+        <td>__</td>
         <td>Archive</td>
     </tr>
 </table>
+<div class="section-heading"><center>ANNOTATION</center></div>
 <table border="1">
-<p class="section-heading"><center>ANNOTATION</center></p>
     <tr>
         <td></td>
         <td>Pour disposition à prendre</td>
@@ -196,23 +221,21 @@
         <td>En instance</td>
     </tr>
     <tr>
-        <td></td>
+        <td>__</td>
         <td>Pour information</td>
-        <td></td>
+        <td>__</td>
         <td>M'accompagner</td>
-        <td></td>
+        <td>__</td>
         <td>Pour  lecture</td>
-        <td></td>
+        <td>__</td>
         <td>Pour Exploitation</td>
     </tr>
 </table>
-<p></p>
- <pre>                                                     Sikasso, le {{ date('d-m-Y') }}</pre>
- <pre>                                                    <b><u>Le Trésorerie Payeur</u></b></pre>
- <p><center>DIVISION</center></p>                  
-    <pre><b>Agent Traitant                                        <u>Le Chef de Division</u></b></pre>
-                    
-                    
-  
+ <p style="margin-right: 50px;"><span class="right-align">Sikasso, le {{ date('d-m-Y') }}</span></p>
+ <br style=" margin-bottom: -10px;">
+ <p class="signature"><span class="right-align"><u>Le Trésorerier Payeur</u></span></p><br>
+ <p><center><u><b>DIVISION</b></u></center></p><br>                
+    <p class="signature">Agent Traitant <span class="right-align"><u>Le Chef de Division</u></span></p>               
+ </div> 
 </body>
 </html>
