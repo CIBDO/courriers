@@ -40,10 +40,10 @@
     <div id="main-wrapper">
         <!-- Nav header -->
         <div class="nav-header">
-            <a href="index.html" class="brand-logo">
-                <img class="logo-abbr" src="{{ asset('images/logo-white-3.png') }}" alt="">
-                <img class="logo-compact" src="{{ asset('images/logo-text-white.png') }}" alt="">
-                <img class="brand-title" src="{{ asset('images/logo-text-white.png') }}" alt="">
+            <a href="{{ route('home') }}" class="brand-logo">
+                <img class="logo-abbr" src="{{ asset('images/sceau.png') }}" alt="">
+                <img class="logo-compact" src="{{ asset('images/sceau.png') }}" alt="">
+                <img class="brand-title" src="{{ asset('images/sceau.png') }}" alt="">
             </a>
             <div class="nav-control">
                 <div class="hamburger">

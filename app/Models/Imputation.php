@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,12 +9,12 @@ class Imputation extends Model
     use HasFactory;
 
     protected $primaryKey = 'id_imputation';
+    public $incrementing = true;
+    protected $keyType = 'bigint';
 
     protected $fillable = [
         'id_courrier_reception',
         'date_imputation',
-        /* 'origine',
-        'objet', */
         'id_courrier',
         'id_service',
         'id_personnel',

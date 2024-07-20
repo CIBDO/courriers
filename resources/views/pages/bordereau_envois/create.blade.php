@@ -56,7 +56,7 @@
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-sm-12">
                                     <div class="form-group">
-                                        <label>type de courrier <span class="required">*</span></label>
+                                        <label> Courrier <span class="required">*</span></label>
                                         <select class="form-control " name="id_courrier">
                                         <option selected disabled>Choisir le type de courrier </option>
                                             @foreach($courriers as $courrier)
@@ -99,19 +99,6 @@
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-sm-12">
                                     <div class="form-group">
-                                        <label class="form-label">Désignation <span class="required">*</span></label>
-                                        <textarea class="form-control" name="designation" rows="3"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-3 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="form-label">Destinateur <span class="required">*</span></label>
-                                        <textarea class="form-control" name="destinateur" rows="3"></textarea>
-                                    </div>
-                                </div>
-                               
-                                <div class="col-lg-3 col-md-3 col-sm-12">
-                                    <div class="form-group">
                                         <label class="form-label">Nombre de Pièces <span class="required">*</span></label>
                                         <input type="number" class="form-control" name="nbre_piece" min="1" required>
                                     </div>
@@ -121,6 +108,18 @@
                                     <div class="form-group">
                                         <label class="form-label">Charger le Courrier (PDF)</label>
                                         <input type="file" class="form-control" name="charger_courrier" accept="application/pdf">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Objet <span class="required">*</span></label>
+                                        <textarea class="form-control" name="designation" rows="6"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Destinateur <span class="required">*</span></label>
+                                        <textarea class="form-control" name="destinateur" rows="2"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12">

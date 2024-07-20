@@ -59,16 +59,10 @@
                                         <label class="form-label">Date d'Arrivée <span class="required">*</span></label>
                                         <input type="date" class="form-control" name="date_arrivee" value="{{ date('Y-m-d') }}" required>
                                     </div>
-                                </div>
+                                </div>                              
                                 <div class="col-lg-3 col-md-3 col-sm-12">
                                     <div class="form-group">
-                                        <label class="form-label">Origine <span class="required">*</span></label>
-                                        <input type="text" class="form-control" name="expeditaire" required>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-3 col-sm-12">
-                                    <div class="form-group">
-                                        <label>type de courrier <span class="required">*</span></label>
+                                        <label>Courrier <span class="required">*</span></label>
                                         <select class="form-control " name="id_courrier">
                                         <option selected disabled>Choisir le type de courrier </option>
                                             @foreach($courriers as $courrier)
@@ -102,7 +96,7 @@
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-sm-12">
                                     <div class="form-group">
-                                        <label>statut <span class="required">*</span></label>
+                                        <label>Statut <span class="required">*</span></label>
                                         <select class="form-control " name="statut">
                                         <option selected disabled>Choisir le statut </option>
                                             <option value="Traité">Traité</option>
@@ -117,20 +111,25 @@
                                         <label class="form-label">Nombre de Pièces <span class="required">*</span></label>
                                         <input type="number" class="form-control" name="nbre_piece" min="1" required>
                                     </div>
-                                </div>
-                                <div class="col-lg-12 col-md-12 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="form-label">Objet du Courrier <span class="required">*</span></label>
-                                        <textarea class="form-control" name="objet_courrier" rows="5" required></textarea>
-                                    </div>
-                                </div>
-                                
+                                </div>                          
                                 <div class="col-lg-3 col-md-3 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Charger le Courrier (Image ou PDF)</label>
                                         <input type="file" class="form-control" name="charger_courrier" id="charger_courrier" accept="image/*,application/pdf" >
                                     </div>
-                                </div>                              
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Objet du Courrier <span class="required">*</span></label>
+                                        <textarea class="form-control" name="objet_courrier" rows="3" required></textarea>
+                                    </div>
+                                </div>  
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Origine <span class="required">*</span></label>
+                                        <textarea class="form-control" name="expeditaire" rows="2" required></textarea>
+                                    </div>
+                                </div>                            
                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary">Enregistrer</button>

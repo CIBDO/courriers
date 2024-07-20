@@ -195,7 +195,7 @@ public function generatePdf($id_courrier_reception)
     $pdf->loadHtml(view('pages.reception_courriers.show', compact('receptionCourrier'))->render());
     $pdf->setPaper('A4', 'portrait');
     $pdf->render();
-    return $pdf->stream('courrier.pdf');
+    return $pdf->stream('courrierarrive.pdf');
 }
 
 public function downloadFile($id_courrier_reception)

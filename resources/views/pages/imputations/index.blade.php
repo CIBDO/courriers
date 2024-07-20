@@ -1,18 +1,17 @@
  @extends('layouts.master')
 @section('content')
 <div class="content-body">
-    <!-- row -->
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="data_table">
                     <div class="card-header">
-                        <h4 class="card-title"> Liste des Imputations de Courrier </h4>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addImputationModal"> + Ajouter Imputation</button>
+                        <h4 class="card-title">Liste des Imputations de Courrier</h4>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addImputationModal">+ Ajouter Imputation</button>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="example" class="able table-striped table-bordered" style="min-width: 1230px">
+                            <table id="example" class="table table-striped table-bordered" style="min-width: 1230px">
                                 <thead class="table-info">
                                     <tr>
                                         <th>Référence</th>
@@ -31,8 +30,8 @@
                                         <td>{{ $imputation->personnel->prenom_personnel }} {{ $imputation->personnel->nom_personnel }}</td>
                                         <td>{{ $imputation->disposition->nom_disposition }}</td>
                                         <td>{{ $imputation->date_imputation }}</td>
-                                        <td>                 
-                                            <!-- Ajoutez des actions ici si nécessaire -->
+                                        <td>
+                                            <!-- Actions -->
                                         </td>
                                     </tr>
                                     @endforeach
@@ -57,19 +56,19 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <form action="{{ route('imputations.store') }}" method="POST" id="imputationForm">
-                            @csrf
+                <form action="{{ route('imputations.store') }}" method="POST" id="imputationForm">
+                    @csrf
+                    <div class="row">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="id_courrier_reception">Référence Courrier <span class="required">*</span></label>
-                                <select class="form-control " id="id_courrier_reception" name="id_courrier_reception" data-live-search="true" data-live-search-placeholder="Recherche" required>
+                                <select class="form-control" id="id_courrier_reception" name="id_courrier_reception"  data-live-search="true" data-live-search-placeholder="Recherche" required>
                                     <option selected disabled>Choisir la Référence du Courrier</option>
                                     @foreach($receptionCourrier as $reception)
                                         <option value="{{ $reception->id_courrier_reception }}">{{ $reception->reference }}</option>
                                     @endforeach
                                 </select>
-                            </div>
+                            </div> 
                             <div class="form-group">
                                 <label for="origine">Origine <span class="required">*</span></label>
                                 <input type="text" class="form-control" id="origine" name="origine" required>
@@ -90,7 +89,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Service <span class="required">*</span></label>
-                                <select class="form-control " id="nom_service" name="id_service" required>
+                                <select class="form-control" id="nom_service" name="id_service" required>
                                     <option selected disabled>Choisir le service</option>
                                     @foreach($services as $service)
                                         <option value="{{ $service->id_service }}">{{ $service->nom_service }}</option>
@@ -99,7 +98,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Chargée du suivi <span class="required">*</span></label>
-                                <select class="form-control " name="id_personnel" required>
+                                <select class="form-control" name="id_personnel" required>
                                     <option selected disabled>Choisir chargée du suivi</option>
                                     @foreach($personnels as $personnel)
                                         <option value="{{ $personnel->id_personnel }}">{{ $personnel->prenom_personnel }} {{ $personnel->nom_personnel }}</option>
@@ -108,7 +107,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Annotation <span class="required">*</span></label>
-                                <select class="form-control " name="id_disposition" required>
+                                <select class="form-control" name="id_disposition" required>
                                     <option selected disabled>Choisir annotation</option>
                                     @foreach($dispositions as $disposition)
                                         <option value="{{ $disposition->id_disposition }}">{{ $disposition->nom_disposition }}</option>

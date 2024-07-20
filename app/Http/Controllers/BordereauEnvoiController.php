@@ -188,7 +188,7 @@ public function generatePdf($id_bordereau)
     $pdf->loadHtml(view('pages.bordereau_envois.show', compact('bordereauEnvoi'))->render());
     $pdf->setPaper('A4', 'portrait');
     $pdf->render();
-    return $pdf->stream('courrier.pdf');
+    return $pdf->stream('courrierdepart.pdf');
 }
 
 public function downloadFile($id_bordereau)

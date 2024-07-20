@@ -131,9 +131,7 @@
         <br>
         <br>
          <p class="signature1" style="margin-right: 100px;"><span class="right-align"><u>{{$bordereauEnvoi->signataire->nom}}</u> </span></p>
-        <p style="margin-right: 105px;"><span class="right-align"><i>Inspecteur de Trésor</i> </span></div>
-        </p>  
-        
+         <p style="margin-left: 35%;"><i>Inspecteur de Trésor</i></p>
     </div>
 </body>
 </html>
