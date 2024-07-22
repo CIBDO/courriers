@@ -73,6 +73,7 @@ class ReceptionCourrierController extends Controller
     {
         $request->validate([
             'reference' => 'required|unique:reception_courriers',
+            'bordereau' => 'required|string',
             'priorite' => 'required|in:Simple,Urgente,Autre',
             'confidentialite' => 'required|in:Oui,Non',
             'date_courrier' => 'required|date',
@@ -95,6 +96,7 @@ class ReceptionCourrierController extends Controller
         // Créer le courrier et lier le fichier
         $receptionCourrier = new ReceptionCourrier();
         $receptionCourrier->reference = $request->reference;
+        $receptionCourrier->bordereau = $request->bordereau;
         $receptionCourrier->priorite = $request->priorite;
         $receptionCourrier->confidentialite = $request->confidentialite;
         $receptionCourrier->date_courrier = $request->date_courrier;
@@ -143,6 +145,7 @@ class ReceptionCourrierController extends Controller
         $request->validate([
             'reference' => 'required|unique:reception_courriers,reference,' . $receptionCourrier->id_courrier_reception . ',id_courrier_reception',
             'priorite' => 'required|in:Simple,Urgente,Autre',
+            'bordereau' => 'required|string',
             'confidentialite' => 'required|in:Oui,Non',
             'date_courrier' => 'required|date',
             'date_arrivee' => 'required|date',

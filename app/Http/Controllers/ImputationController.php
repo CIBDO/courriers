@@ -12,14 +12,45 @@ use HepplerDotNet\FlashToastr\Flash;
 
 class ImputationController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $imputations = Imputation::all();
+        $query = Imputation::query();
+
+        // Filtrer par référence si le champ est renseigné
+        if ($request->filled('reference')) {
+            $query->where('reference', 'like', '%' . $request->input('reference') . '%');
+        }
+
+        // Filtrer par service si le champ est renseigné
+        if ($request->filled('nom_service')) {
+            $query->where('nom_service', 'like', '%' . $request->input('nom_service') . '%');
+        }
+
+        // Filtrer par date d'arrivée si le champ est renseigné
+        if ($request->filled('date_imputation')) {
+            $query->whereDate('date_imputation', $request->input('date_imputation'));
+        }
+
+        // Filtrer par personne si le champ est renseigné
+        if ($request->filled('nom_personnel')) {
+            $query->where('nom_personnel', 'like', '%' . $request->input('nom_personnel') . '%');
+        }
+
+        // Filtrer par nature du courrier si le champ est renseigné
+        if ($request->filled('nom_disposition')) {
+            $query->where('nom_disposition', 'like', '%' . $request->input('nom_disposition') . '%');
+        }
+
+        $query->orderByDesc('date_imputation');
+
+        $imputations = $query->paginate(8);
+
         $receptionCourrier = ReceptionCourrier::all();
         $courriers = Courrier::all();
         $services = Service::all();
         $personnels = Personnel::all();
         $dispositions = Disposition::all();
+        
         return view('pages.imputations.index', compact('imputations', 'receptionCourrier', 'courriers', 'services', 'personnels', 'dispositions'));
     }
 
@@ -38,49 +69,45 @@ class ImputationController extends Controller
         $dispositions = Disposition::all();
         $courriers = Courrier::all();
         $imputation = new Imputation();
+        
         return view('pages.imputations.create', compact('imputations', 'services', 'personnels', 'dispositions', 'courriers', 'receptionCourrier'));
     }
 
     public function store(Request $request)
-{
-    $request->validate([
-        'id_courrier_reception' => 'required|exists:reception_courriers,id_courrier_reception',
-        'date_imputation' => 'required|date',
-        'id_courrier' => 'required|exists:courriers,id_courrier',
-        'id_service' => 'required|exists:services,id_service',
-        'id_personnel' => 'required|exists:personnels,id_personnel',
-        'id_disposition' => 'required|exists:dispositions,id_disposition',
-        'observation' => 'nullable|string',
-    ]);
+    {
+        $request->validate([
+            'id_courrier_reception' => 'required|exists:reception_courriers,id_courrier_reception',
+            'date_imputation' => 'required|date',
+            'id_service' => 'required|exists:services,id_service',
+            'id_personnel' => 'required|exists:personnels,id_personnel',
+            'id_disposition' => 'required|exists:dispositions,id_disposition',
+            'observation' => 'nullable|string',
+        ]);
 
-    // Préparer les données pour l'insertion
-    $imputationData = $request->only([
-        'id_courrier_reception',
-        'date_imputation',
-        'id_courrier',
-        'id_service',
-        'id_personnel',
-        'id_disposition',
-        'observation',
-    ]);
+        $imputationData = $request->only([
+            'id_courrier_reception',
+            'date_imputation',
+            'id_courrier',
+            'id_service',
+            'id_personnel',
+            'id_disposition',
+            'observation',
+        ]);
 
-    // Convertir les champs en entiers
-    $imputationData['id_courrier_reception'] = (int)$imputationData['id_courrier_reception'];
-    $imputationData['id_courrier'] = (int)$imputationData['id_courrier'];
-    $imputationData['id_service'] = (int)$imputationData['id_service'];
-    $imputationData['id_personnel'] = (int)$imputationData['id_personnel'];
-    $imputationData['id_disposition'] = (int)$imputationData['id_disposition'];
+        $imputationData['id_courrier_reception'] = (int)$imputationData['id_courrier_reception'];
+        $imputationData['id_service'] = (int)$imputationData['id_service'];
+        $imputationData['id_personnel'] = (int)$imputationData['id_personnel'];
+        $imputationData['id_disposition'] = (int)$imputationData['id_disposition'];
 
-    try {
-        Imputation::create($imputationData);
-        Flash::info('success', 'Imputation créée avec succès.');
-        return redirect()->route('imputations.index')->with('success', 'Imputation créée avec succès.');
-    } catch (\Exception $e) {
-        dd($e->getMessage());
+        try {
+            Imputation::create($imputationData);
+            Flash::info('success', 'Imputation créée avec succès.');
+            return redirect()->route('imputations.index')->with('success', 'Imputation créée avec succès.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
-}
 
-    
     public function show(Imputation $imputation)
     {
         $services = Service::all();
@@ -88,6 +115,7 @@ class ImputationController extends Controller
         $dispositions = Disposition::all();
         $courriers = Courrier::all();
         $receptionCourriers = ReceptionCourrier::all();
+        
         return view('pages.imputations.show', compact('imputation', 'personnels', 'dispositions', 'courriers', 'receptionCourriers'));
     }
 
@@ -98,7 +126,8 @@ class ImputationController extends Controller
         $dispositions = Disposition::all();
         $courriers = Courrier::all();
         $receptionCourriers = ReceptionCourrier::all();
-        return view('pages.imputations.edit', compact('imputation', 'personnels', 'dispositions', 'courriers', 'receptionCourriers'));
+        
+        return view('pages.imputations.edit', compact('imputation', 'personnels', 'dispositions', 'services', 'receptionCourriers'));
     }
 
     public function update(Request $request, Imputation $imputation)
@@ -106,7 +135,6 @@ class ImputationController extends Controller
         $request->validate([
             'id_courrier_reception' => 'required|exists:reception_courriers,id_courrier_reception',
             'date_imputation' => 'required|date',
-            'id_courrier' => 'required|exists:courriers,id_courrier',
             'id_service' => 'required|exists:services,id_service',
             'id_personnel' => 'required|exists:personnels,id_personnel',
             'id_disposition' => 'required|exists:dispositions,id_disposition',

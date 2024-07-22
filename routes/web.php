@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\CourrierInterneController;
 use App\Http\Controllers\PersonnelController;
 use App\Http\Controllers\SignataireController;
 use App\Http\Controllers\DispositionController;
@@ -117,13 +118,16 @@ Route::get('/expeditaires/{expeditaire}/edit', [ExpeditaireController::class, 'e
 Route::put('/expeditaires/{expeditaire}', [ExpeditaireController::class, 'update'])->name('expeditaires.update');
 Route::delete('/expeditaires/{expeditaire}', [ExpeditaireController::class, 'destroy'])->name('expeditaires.destroy');
 //IMPUTATIONS
-Route::get('/imputations', [ImputationController::class, 'index'])->name('imputations.index');
+/* Route::get('/imputations', [ImputationController::class, 'index'])->name('imputations.index');
 Route::get('/imputations/create', [ImputationController::class, 'create'])->name('imputations.create');
 Route::post('/imputations', [ImputationController::class, 'store'])->name('imputations.store');
 Route::get('/imputations/{imputation}/edit', [ImputationController::class, 'edit'])->name('imputations.edit');
 Route::put('/imputations/{imputation}', [ImputationController::class, 'update'])->name('imputations.update');
 Route::delete('/imputations/{imputation}', [ImputationController::class, 'destroy'])->name('imputations.destroy');
 Route::get('/imputations/history', [ImputationController::class, 'history'])->name('imputations.history');
+Route::get('/fetch-courrier-details', [ImputationController::class, 'fetchCourrierDetails'])->name('fetchCourrierDetails'); */
+// Imputations
+Route::resource('imputations', ImputationController::class);
 Route::get('/fetch-courrier-details', [ImputationController::class, 'fetchCourrierDetails'])->name('fetchCourrierDetails');
 //BORDEREAU D'ENVOI
 
@@ -146,12 +150,13 @@ Route::get('attachments/{id}/delete', [AttachmentController::class, 'destroy']);
 Route::post('/attachments/upload', [AttachmentController::class, 'upload']);
 Route::get('/attachments/{attachment}', [AttachmentController::class, 'show']);
 
-Route::get('/reception_courriers/{id_courrier_reception}/download', 'ReceptionCourrierController@downloadFile')->name('reception_courriers.download');
-Route::delete('/reception_courriers/{id_courrier_reception}/delete_file', 'ReceptionCourrierController@deleteFile')->name('reception_courriers.delete_file');
+Route::get('/reception_courriers/{id_courrier_reception}/download',[ReceptionCourrierController::class,'downloadFile'] )->name('reception_courriers.download');
+Route::delete('/reception_courriers/{id_courrier_reception}/delete_file', [ReceptionCourrierController::class,'deleteFile'])->name('reception_courriers.delete_file');
 
 Route::get('/reception_courriers/{id}/pdf', [ReceptionCourrierController::class, 'showPdf'])->name('reception_courriers.show_pdf');
 Route::get('/reception_courriers/{id}/download_pdf', [ReceptionCourrierController::class, 'downloadPdf'])->name('reception_courriers.download_pdf');
-
+// Courrier Interne
+Route::resource('courrier-internes', CourrierInterneController::class);
 });
 
 require __DIR__.'/auth.php';

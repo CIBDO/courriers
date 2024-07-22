@@ -13,6 +13,7 @@ class ReceptionCourrier extends Model
 
     protected $fillable = [
         'reference',
+        'bordereau',
         'priorite',
         'confidentialite',
         'date_courrier',

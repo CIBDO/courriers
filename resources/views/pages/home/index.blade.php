@@ -83,8 +83,8 @@
                           <table id="courriersTable" class="table">
                               <thead>
                                   <tr>
-                                      <th>Référence</th>
-                                      <th>Date du Courrier</th>
+                                      <th>N° Réception</th>
+                                      <th>N° Bordereau</th>
                                       <th>Date d'Arrivée</th>
                                       <th>Expéditeur</th>
                                       <th>Type de Courrier</th>
@@ -96,7 +96,7 @@
                                   @foreach($receptionCourriers as $receptionCourrier)
                                   <tr>
                                       <td>{{ $receptionCourrier->reference }}</td>
-                                      <td>{{ $receptionCourrier->date_courrier }}</td>
+                                      <td>{{ $receptionCourrier->bordereau }}</td>
                                       <td>{{ $receptionCourrier->date_arrivee }}</td>
                                       <td>{{ $receptionCourrier->expeditaire }}</td>
                                       <td>{{ $receptionCourrier->courrier->type_courrier }}</td>
