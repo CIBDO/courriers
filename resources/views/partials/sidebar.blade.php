@@ -51,8 +51,8 @@
                     <li><a href="{{ route('reception_courriers.index') }}">Voir Entrants</a></li>
                     <li><a href="{{ route('bordereau_envois.create') }}">Courriers sortants</a></li>
                     <li><a href="{{ route('bordereau_envois.index') }}">Voir Sortants</a></li>
-                    <li><a href="edit-courses.html">Courriers Internes</a></li>
-                    <li><a href="all-courses.html">Voir Internes</a></li>
+                    <li><a href="{{ route('courrier-internes.create') }}">Courriers Internes</a></li>
+                    <li><a href="{{ route('courrier-internes.index') }}">Voir Internes</a></li>
                 </ul>
             </li>
             <li><a href="javascript:void()" aria-expanded="false">

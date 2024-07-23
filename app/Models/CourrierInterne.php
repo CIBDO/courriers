@@ -15,19 +15,20 @@ class CourrierInterne extends Model
         'reference',
         'date_creation',
         'objet',
-        'id_expeditaire',
+        'id_signataire',
         'id_courrier',
-        'id_destinataire',
+        'id_service',
         'id_personnel',
+        'id_disposition',
         'nbre_piece',
         'statut',
         'charger_courrier',
         'observation',
     ];
 
-    public function expeditaire()
+    public function signataire()
     {
-        return $this->belongsTo(Expeditaire::class, 'id_expeditaire');
+        return $this->belongsTo(Signataire::class, 'id_signataire');
     }
 
     public function courrier()
@@ -35,14 +36,18 @@ class CourrierInterne extends Model
         return $this->belongsTo(Courrier::class, 'id_courrier');
     }
 
-    public function destinataire()
+    public function service()
     {
-        return $this->belongsTo(Destinataire::class, 'id_destinataire');
+        return $this->belongsTo(Service::class, 'id_service');
     }
 
     public function personnel()
     {
         return $this->belongsTo(Personnel::class, 'id_personnel');
+    }
+    public function disposition()
+    {
+        return $this->belongsTo(Disposition::class, 'id_disposition');
     }
 
 }

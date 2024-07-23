@@ -18,7 +18,7 @@
                         <h5 class="card-title">Recherche de courriers</h5>
                     </div>
                     <div class="card-body">
-                        <form method="GET" action="{{ route('reception_courriers.index') }}">
+                        <form method="GET" action="{{ route('courrier-internes.index') }}">
                             <div class="row">
                                 <div class="col-lg-3 col-md-3 col-sm-12">
                                     <div class="form-group">
@@ -26,24 +26,24 @@
                                         <input type="text" class="form-control" name="reference">
                                     </div>
                                 </div>
+                                 <div class="col-lg-3 col-md-3 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Division</label>
+                                        <input type="text" class="form-control" name="nom_service">
+                                    </div>
+                                </div> 
                                 <div class="col-lg-3 col-md-3 col-sm-12">
                                     <div class="form-group">
-                                        <label class="form-label">Origine</label>
-                                        <input type="text" class="form-control" name="expeditaire">
+                                        <label class="form-label">Date Courrier</label>
+                                        <input type="date" class="form-control" name="date_creation">
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-3 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="form-label">Date d'arrivée</label>
-                                        <input type="date" class="form-control" name="date_arrivee">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                {{-- <div class="col-lg-3 col-md-3 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Date du Courrier</label>
                                         <input type="date" class="form-control" name="date_courrier">
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="col-lg-3 col-md-3 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Nature Courrier</label>
@@ -59,9 +59,9 @@
                                 <!-- Ajoutez d'autres champs de recherche ici -->
                                 <div class="col-lg-3 col-md-3 col-sm-12">
                                     <button type="submit" class="btn btn-primary mt-4">Rechercher</button>
-                                    <a href="{{ route('reception_courriers.index') }}" class="btn btn-primary mt-4">Voir toute la liste</a>
+                                    <a href="{{ route('courrier-internes.index') }}" class="btn btn-primary mt-4">Voir toute la liste</a>
                                 </div>                               
-                                     <a href="{{ route('reception_courriers.create') }}" class="btn btn-primary"> + Réception Courrier</a>
+                                     <a href="{{ route('courrier-internes.create') }}" class="btn btn-primary"> + Courrier Interne</a>
                             </div>
                         </form>
                     </div>
@@ -76,31 +76,31 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>N° Réception</th>
-                                    <th>N° Bordereau</th>
-                                    <th>Date d'Arrivée</th>
-                                    <th>Expéditeur</th>
-                                    <th>Type de Courrier</th>
+                                    <th>Référence</th>
+                                    <th>Date du Courrier</th>
+                                    <th>Division</th>
+                                    <th>Agent concerné</th>
+                                    <th>Annotation</th>
                                     <th>Statut</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>               
-                                @foreach($receptionCourriers as $receptionCourrier)
+                                @foreach($courriersInternes as $courrierInterne)
                                 <tr>
-                                    <td>{{ $receptionCourrier->reference }}</td>
-                                    <td>{{ $receptionCourrier->bordereau }}</td>
-                                    <td>{{ $receptionCourrier->date_arrivee }}</td>
-                                    <td>{{ $receptionCourrier->expeditaire }}</td>
-                                    <td>{{ $receptionCourrier->courrier->type_courrier }}</td>
-                                    <td>{{ $receptionCourrier->statut }}</td>
+                                    <td>{{ $courrierInterne->reference }}</td>
+                                    <td>{{ $courrierInterne->date_creation }}</td>
+                                    {{-- <td>{{ $courrierInterne->courrier->type_courrier }}</td> --}}
+                                    <td>{{ $courrierInterne->service->nom_service ?? 'N/A' }}</td>
+                                    <td>{{ $courrierInterne->personnel->prenom_personnel }} {{ $courrierInterne->personnel->nom_personnel }}</td>
+                                    {{-- <td>{{ $courrierInterne->signataire->nom }}</td> --}}
+                                    <td>{{ $courrierInterne->disposition->nom_disposition }}</td>
+                                    <td>{{ $courrierInterne->statut }}</td>
                                     <td>
-                                        <a href="{{ route('reception_courriers.edit', $receptionCourrier->id_courrier_reception) }}"  class="btn btn-primary"><i class="la la-pencil"></i></a>
-                                        {{-- <a href="{{ route('reception_courriers.show', $receptionCourrier->id_courrier_reception) }}" class="btn btn-info"><i class="la la-print"></i></a> --}}
-                                        {{-- <a href="#" class="btn btn-info" id="printButton"><i class="la la-print"></i></a> --}}
-                                        <a href="{{ route('reception_courriers.pdf', $receptionCourrier->id_courrier_reception) }}" class="btn btn-info" target="_blank"><i class="la la-print"></i></a>
-                                        <a href="{{ route('reception_courriers.voir', $receptionCourrier->id_courrier_reception) }}" class="btn btn-primary"><i class="la la la-info-circle"></i></a>
-                                        <form action="{{ route('reception_courriers.destroy', $receptionCourrier->id_courrier_reception) }}" method="POST"style="display: inline;">
+                                        <a href="{{ route('courrier-internes.edit', $courrierInterne->id_courrierinterne) }}"  class="btn btn-primary"><i class="la la-pencil"></i></a>
+                                        {{-- <a href="{{ route('courrier-internes.pdf', $courrierInterne->id_courrierinterne) }}" class="btn btn-info" target="_blank"><i class="la la-print"></i></a> --}}
+                                        <a href="{{ route('courrier-internes.show', $courrierInterne->id_courrierinterne) }}" class="btn btn-primary"><i class="la la la-info-circle"></i></a>
+                                        <form action="{{ route('courrier-internes.destroy', $courrierInterne->id_courrierinterne) }}" method="POST" style="display: inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger"><i class="la la-trash-o"></i></button>
@@ -110,8 +110,7 @@
                                 @endforeach                             
                             </tbody>
                         </table>
-                         <!-- Afficher les liens de pagination -->
-                                {{ $receptionCourriers->links('pagination::bootstrap-5') }}
+                        {{ $courriersInternes->links('pagination::bootstrap-5') }}
                     </div>
                 </div>
             </div>
