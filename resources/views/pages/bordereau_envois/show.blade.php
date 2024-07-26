@@ -98,26 +98,27 @@
             </div>
         </div>
         <h3>BORDEREAU D'ENVOI N° 2024_______/MEF/TPR-SIKASSO</h3>
-        <table class="bordereau-info">
-            <tr>
-                <th style="text-align: left;">Désignation</th>
-                <th style="text-align: center;">Nbre de Pièces</th>
-                <th style="text-align: center; width: 120px; word-wrap: break-word;">Observations</th>
-            </tr>
-            @foreach ($bordereauEnvoi->pieces as $piece)
-            <tr>
-                <td>{{ $piece->designation }}</td>
-                <td style="text-align: center;">{{ $piece->nbre_piece }}</td>
-                <td>{{ $bordereauEnvoi->disposition->nom_disposition }}</td>
-            </tr>
-            @endforeach
-            <tr>
-                <td class="st">Total</td>
-                <td class="st" style="text-align: center;">{{ $bordereauEnvoi->pieces->sum('nbre_piece') }}</td>
-                <td></td>
-            </tr>
-        </table>
-
+       <table class="bordereau-info">
+    <tr>
+        <th style="text-align: left;">Désignation</th>
+        <th style="text-align: center;">Nbre de Pièces</th>
+        <th style="text-align: center; width: 120px; word-wrap: break-word;">Observations</th>
+    </tr>
+    @foreach ($bordereauEnvoi->pieces as $piece)
+    <tr>
+        <td>{{ $piece->designation }}</td>
+        <td style="text-align: center;">{{ $piece->nbre_piece }}</td>
+        @if ($loop->first)
+        <td rowspan="{{ $bordereauEnvoi->pieces->count() }}">{{ $bordereauEnvoi->disposition->nom_disposition }}</td>
+        @endif
+    </tr>
+    @endforeach
+    <tr>
+        <td class="st">Total</td>
+        <td class="st" style="text-align: center;">{{ $bordereauEnvoi->pieces->sum('nbre_piece') }}</td>
+        <td></td>
+    </tr>
+</table>
         <div class="footer">
             <p class="signature" style="margin-right: 100px;"><span class="right-align">Le Trésorier Payeur </span></p>
             <br>
