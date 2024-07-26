@@ -60,61 +60,85 @@ class ReceptionCourrierController extends Controller
     return view('pages.reception_courriers.index', compact('receptionCourriers', 'services', 'courriers', 'personnels','receptionCourriersWithImputations'));
 }
 
+public function create()
+{
+    $courriers = Courrier::all();
+    $services = Service::all();
+    $personnels = Personnel::all();
 
-    public function create()
-    {
-        $services = Service::all();
-        $courriers = Courrier::all();
-        $personnels = Personnel::all();
-        return view('pages.reception_courriers.create' ,compact( 'services', 'courriers','personnels'));
+    // Générer une référence unique
+    $reference = $this->generateUniqueReference();
+
+    return view('pages.reception_courriers.create', compact('courriers', 'services', 'personnels', 'reference'));
+}
+
+private function generateUniqueReference()
+{
+    $currentYear = date('Y');
+    $latestRecord = ReceptionCourrier::whereYear('created_at', $currentYear)->orderBy('reference', 'desc')->first();
+
+    if ($latestRecord) {
+        $latestReference = $latestRecord->reference;
+        $latestNumber = (int)substr($latestReference, -4);
+        $newNumber = $latestNumber + 1;
+    } else {
+        $newNumber = 1;
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'reference' => 'required|unique:reception_courriers',
-            'bordereau' => 'required|string',
-            'priorite' => 'required|in:Simple,Urgente,Autre',
-            'confidentialite' => 'required|in:Oui,Non',
-            'date_courrier' => 'required|date',
-            'date_arrivee' => 'required|date',
-            'expeditaire' => 'required|string',
-            'id_courrier' => 'required|exists:courriers,id_courrier',
-            'id_service' => 'required|exists:services,id_service',
-            'id_personnel' => 'required|exists:personnels,id_personnel',
-            'objet_courrier' => 'required|string',
-            'nbre_piece' => 'required|integer|min:1',
-            'charger_courrier' => 'file|mimes:pdf|max:2048',
-            'statut' => 'required|in:Traité,Reçu,en cours de traitement,Rejeté',
-        ]);
-        if ($request->hasFile('charger_courrier')) {
-            $file = $request->file('charger_courrier');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('public/fichier/courrier', $fileName);
-        }
+    $newReference = $currentYear . str_pad($newNumber, 4, '0', STR_PAD_LEFT);
+
+    return $newReference;
+}
+
+public function store(Request $request)
+{
+    // Validation des données du formulaire
+    $validatedData = $request->validate([
+        'bordereau' => 'required|string',
+        'priorite' => 'required|in:Simple,Urgente,Autre',
+        'confidentialite' => 'required|in:Oui,Non',
+        'date_courrier' => 'required|date',
+        'date_arrivee' => 'required|date',
+        'expeditaire' => 'required|string',
+        'id_courrier' => 'required|exists:courriers,id_courrier',
+        'id_service' => 'required|exists:services,id_service',
+        'id_personnel' => 'required|exists:personnels,id_personnel',
+        'objet_courrier' => 'required|string',
+        'nbre_piece' => 'required|integer|min:1',
+        'charger_courrier' => 'nullable|file|mimes:pdf|max:2048',
+        'statut' => 'required|in:Traité,Reçu,en cours de traitement,Rejeté',
+    ]);
+
+    // Génération automatique de la référence
+    $year = date('Y'); // Année en cours
+    $latest = ReceptionCourrier::whereYear('created_at', $year)
+        ->orderByDesc('reference')
+        ->value('reference');
     
-        // Créer le courrier et lier le fichier
-        $receptionCourrier = new ReceptionCourrier();
-        $receptionCourrier->reference = $request->reference;
-        $receptionCourrier->bordereau = $request->bordereau;
-        $receptionCourrier->priorite = $request->priorite;
-        $receptionCourrier->confidentialite = $request->confidentialite;
-        $receptionCourrier->date_courrier = $request->date_courrier;
-        $receptionCourrier->date_arrivee = $request->date_arrivee;
-        $receptionCourrier->expeditaire = $request->expeditaire;
-        $receptionCourrier->id_courrier = $request->id_courrier;
-        $receptionCourrier->id_service = $request->id_service;
-        $receptionCourrier->id_personnel = $request->id_personnel;
-        $receptionCourrier->objet_courrier = $request->objet_courrier;
-        $receptionCourrier->nbre_piece = $request->nbre_piece;
-        $receptionCourrier->statut = $request->statut;
-        $receptionCourrier->charger_courrier = $filePath ?? null; 
-        ReceptionCourrier::create($request->all()); 
-        Flash::info('success', 'Courrier réceptionné avec succès.');
-        return redirect()->route('reception_courriers.create')
-            ->with('success', 'Courrier réceptionné avec succès.'); 
-       /*  return redirect()->route('reception_courriers.show', $receptionCourrier->id_courrier_reception); */
+    if ($latest) {
+        // Extraire les quatre derniers chiffres de la dernière référence et incrémenter
+        $lastNumber = (int) substr($latest, strpos($latest, '/') + 1);
+        $newNumber = $lastNumber + 1;
+    } else {
+        // Premier enregistrement de l'année
+        $newNumber = 1;
     }
+
+    // Formater le nouveau numéro avec quatre chiffres, préfixé par l'année et le slash
+    $reference = $year . '/' . str_pad($newNumber, 4, '0', STR_PAD_LEFT);
+
+    // Enregistrement du fichier si présent
+    if ($request->hasFile('charger_courrier')) {
+        $file = $request->file('charger_courrier');
+        $path = $file->store('courriers', 'public');
+        $validatedData['charger_courrier'] = $path;
+    }
+
+    // Création de l'enregistrement avec la nouvelle référence
+    ReceptionCourrier::create(array_merge($validatedData, ['reference' => $reference]));
+    Flash::info('success', 'Courrier réceptionné avec succès.');
+    return redirect()->route('reception_courriers.create')->with('success', 'Courrier enregistré avec succès.');
+}
 
     public function show(ReceptionCourrier $receptionCourrier)
     {

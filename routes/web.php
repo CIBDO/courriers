@@ -158,6 +158,8 @@ Route::get('/reception_courriers/{id}/download_pdf', [ReceptionCourrierControlle
 // Courrier Interne
 Route::resource('courrier-internes', CourrierInterneController::class);
 /* Route::get('/courrier-internes/{courrierInterne}/voir', [CourrierInterneController::class, 'voir'])->name('courrier-internes.voir'); */
+/* Route::get('reception_courriers/{id_courrier_reception}', [ReceptionCourrierController::class, 'show'])->name('reception_courriers.show'); */
+
 });
 
 require __DIR__.'/auth.php';
