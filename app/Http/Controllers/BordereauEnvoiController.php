@@ -8,57 +8,52 @@ use App\Models\Courrier;
 use App\Models\Destinataire;
 use App\Models\Disposition;
 use App\Models\Signataire;
+use App\Models\Piece;
 use Dompdf\Dompdf;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Pagination\LengthAwarePaginator;
 use HepplerDotNet\FlashToastr\Flash;
 use Illuminate\Support\Carbon;
-
 
 class BordereauEnvoiController extends Controller
 {
     public function index(Request $request)
     {
         $query = BordereauEnvoi::query();
-        
-    // Filtrer par référence si le champ est renseigné
-    if ($request->filled('reference_bordereau')) {
-        $query->where('reference_bordereau', 'like', '%' . $request->input('reference_bordereau') . '%');
-    }
 
-    // Filtrer par expéditeur si le champ est renseigné
-    if ($request->filled('destinateur')) {
-        $query->where('destinateur', 'like', '%' . $request->input('destinateur') . '%');
-    }
+        if ($request->filled('reference_bordereau')) {
+            $query->where('reference_bordereau', 'like', '%' . $request->input('reference_bordereau') . '%');
+        }
 
-    // Filtrer par date d'arrivée si le champ est renseigné
-    if ($request->filled('designation')) {
-        $query->where('designation', $request->input('designation'));
-    }
+        if ($request->filled('destinateur')) {
+            $query->where('destinateur', 'like', '%' . $request->input('destinateur') . '%');
+        }
 
-    // Filtrer par date du courrier si le champ est renseigné
-    if ($request->filled('date_bordereau')) {
-        $query->whereDate('date_bordereau', $request->input('date_bordereau'));
-    }
+        if ($request->filled('designation')) {
+            $query->where('designation', $request->input('designation'));
+        }
 
-    // Filtrer par nature du courrier si le champ est renseigné
-    if ($request->filled('type_courrier')) {
-        $query->where('type_courrier', 'like', '%' . $request->input('type_courrier') . '%');
-    }
+        if ($request->filled('date_bordereau')) {
+            $query->whereDate('date_bordereau', $request->input('date_bordereau'));
+        }
 
-    // Filtrer par statut si le champ est renseigné
-    if ($request->filled('statut')) {
-        $query->where('statut', 'like', '%' . $request->input('statut') . '%');
-    }
-    $query->orderByDesc('date_bordereau');
-    $bordereauEnvois = $query->paginate(8);
-        /* $bordereauEnvois = BordereauEnvoi::all(); */
+        if ($request->filled('type_courrier')) {
+            $query->where('type_courrier', 'like', '%' . $request->input('type_courrier') . '%');
+        }
+
+        if ($request->filled('statut')) {
+            $query->where('statut', 'like', '%' . $request->input('statut') . '%');
+        }
+
+        $query->orderByDesc('date_bordereau');
+        $bordereauEnvois = $query->paginate(8);
+
         $destinataires = Destinataire::all();
         $courriers = Courrier::all();
         $dispositions = Disposition::all();
         $signataires = Signataire::all();
-        return view('pages.bordereau_envois.index' ,compact( 'bordereauEnvois','destinataires', 'courriers','dispositions','signataires'));
+
+        return view('pages.bordereau_envois.index', compact('bordereauEnvois', 'destinataires', 'courriers', 'dispositions', 'signataires'));
     }
 
     public function create()
@@ -67,46 +62,53 @@ class BordereauEnvoiController extends Controller
         $courriers = Courrier::all();
         $dispositions = Disposition::all();
         $signataires = Signataire::all();
-        return view('pages.bordereau_envois.create',compact('destinataires', 'courriers','dispositions','signataires'));
+
+        return view('pages.bordereau_envois.create', compact('destinataires', 'courriers', 'dispositions', 'signataires'));
     }
 
     public function store(Request $request)
     {
+        // Validation des données
         $request->validate([
-            'reference_bordereau' => 'required|unique:bordereau_envois',
+            'reference_bordereau' => 'required|string|max:255',
             'date_bordereau' => 'required|date',
-            'priorite' => 'required|in:Simple,Urgente,Autre',
-            'confidentialite' => 'required|in:Oui,Non',
-            'id_courrier' => 'required|exists:courriers,id_courrier',
-            'designation' => 'required|string',
+            'priorite' => 'required|string',
+            'confidentialite' => 'required|string',
+            'id_courrier' => 'required|integer',
+            'id_disposition' => 'required|integer',
+            'id_signataire' => 'required|integer',
+            'statut' => 'required|string',
             'destinateur' => 'required|string',
-            'id_disposition' => 'required|exists:dispositions,id_disposition',
-            'id_signataire' => 'required|exists:signataires,id_signataire',
-            'nbre_piece' => 'required|integer|min:1',
-            'statut' => 'required|in:Envoyé,Rejeté',
-            'charger_courrier' => 'file|mimes:pdf|max:2048',
+            'designation' => 'required|array',
+            'designation.*' => 'required|string|max:255',
+            'nbre_piece' => 'required|array',
+            'nbre_piece.*' => 'required|integer|min:1',
+            'total_pieces' => 'integer',
         ]);
-        if ($request->hasFile('charger_courrier')) {
-            $file = $request->file('charger_courrier');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('public/fichier/courrier', $fileName);
+
+        // Créer le bordereau d'envoi
+        $bordereauEnvoi = BordereauEnvoi::create([
+            'reference_bordereau' => $request->reference_bordereau,
+            'date_bordereau' => $request->date_bordereau,
+            'priorite' => $request->priorite,
+            'confidentialite' => $request->confidentialite,
+            'id_courrier' => $request->id_courrier,
+            'id_disposition' => $request->id_disposition,
+            'id_signataire' => $request->id_signataire,
+            'statut' => $request->statut,
+            'destinateur' => $request->destinateur,
+            'total_pieces' => $request->total_pieces,
+        ]);
+
+        // Ajouter les désignations et les nombres de pièces
+        foreach ($request->designation as $index => $designation) {
+            Piece::create([
+                'id_bordereau' => $bordereauEnvoi->id_bordereau, // Assurez-vous d'utiliser la clé primaire correcte
+                'designation' => $designation,
+                'nbre_piece' => $request->nbre_piece[$index],
+            ]);
         }
-    
-        // Créer le courrier et lier le fichier
-        $bordereauEnvoi = new BordereauEnvoi();
-        $bordereauEnvoi->reference_bordereau = $request->reference_bordereau;
-        $bordereauEnvoi->priorite = $request->priorite;
-        $bordereauEnvoi->confidentialite = $request->confidentialite;
-        $bordereauEnvoi->date_bordereau = $request->date_bordereau;
-        $bordereauEnvoi->destinateur = $request->destinateur;
-        $bordereauEnvoi->id_courrier = $request->id_courrier;
-        $bordereauEnvoi->id_disposition = $request->id_disposition;
-        $bordereauEnvoi->id_signataire = $request->id_signataire;
-        $bordereauEnvoi->designation = $request->designation;
-        $bordereauEnvoi->nbre_piece = $request->nbre_piece;
-        $bordereauEnvoi->statut = $request->statut;
-        $bordereauEnvoi->charger_courrier = $filePath ?? null; 
-        BordereauEnvoi::create($request->all());
+
         Flash::info('success', 'Bordereau envoyé avec succès.');
         return redirect()->route('bordereau_envois.create')
             ->with('success', 'Bordereau d\'envoi créé avec succès.');
@@ -119,7 +121,8 @@ class BordereauEnvoiController extends Controller
         $courriers = Courrier::all();
         $dispositions = Disposition::all();
         $signataires = Signataire::all();
-        return view('pages.bordereau_envois.show', compact('bordereauEnvoi','destinataires', 'courriers','dispositions','signataires','dateFormatted'));
+
+        return view('pages.bordereau_envois.show', compact('bordereauEnvoi', 'destinataires', 'courriers', 'dispositions', 'signataires', 'dateFormatted'));
     }
 
     public function edit(BordereauEnvoi $bordereauEnvoi)
@@ -128,13 +131,12 @@ class BordereauEnvoiController extends Controller
         $courriers = Courrier::all();
         $dispositions = Disposition::all();
         $signataires = Signataire::all();
-        return view('pages.bordereau_envois.edit', compact('bordereauEnvoi','destinataires', 'courriers','dispositions','signataires'));
-    
+
+        return view('pages.bordereau_envois.edit', compact('bordereauEnvoi', 'destinataires', 'courriers', 'dispositions', 'signataires'));
     }
 
     public function update(Request $request, BordereauEnvoi $bordereauEnvoi)
     {
-       /*  dd($request->all()); */
         $request->validate([
             'reference_bordereau' => 'required|unique:bordereau_envois,reference_bordereau,' . $bordereauEnvoi->id_bordereau . ',id_bordereau',
             'date_bordereau' => 'required|date',
@@ -149,6 +151,7 @@ class BordereauEnvoiController extends Controller
             'statut' => 'required|in:Envoyé,Rejeté',
             'charger_courrier' => 'file|mimes:pdf|max:2048',
         ]);
+
         // Traitement du fichier chargé
         if ($request->hasFile('charger_courrier')) {
             if ($bordereauEnvoi->charger_courrier) {
@@ -158,40 +161,40 @@ class BordereauEnvoiController extends Controller
             $file = $request->file('charger_courrier');
             $fileName = time() . '_' . $file->getClientOriginalName();
             $filePath = $file->storeAs('public/fichier/courrier', $fileName);
+            $request->merge(['charger_courrier' => $filePath]);
         }
 
         $bordereauEnvoi->update($request->all());
-        Flash::info('success', 'Bordereau  mis à jour avec succès.');
-        return redirect()->route('bordereau_envois.index') ->with('success', 'Bordereau d\'envoi mis à jour avec succès.');
+
+        Flash::info('success', 'Bordereau mis à jour avec succès.');
+        return redirect()->route('bordereau_envois.index')->with('success', 'Bordereau d\'envoi mis à jour avec succès.');
     }
 
     public function destroy($id_bordereau)
     {
         $bordereauEnvoi = BordereauEnvoi::findOrFail($id_bordereau);
 
-    // Supprimer le fichier si nécessaire
-    if ($bordereauEnvoi->charger_courrier) {
-        Storage::delete('public/fichier/courrier/' . basename($bordereauEnvoi->charger_courrier));
+        if ($bordereauEnvoi->charger_courrier) {
+            Storage::delete('public/fichier/courrier/' . basename($bordereauEnvoi->charger_courrier));
+        }
+
+        $bordereauEnvoi->delete();
+
+        Flash::info('success', 'Bordereau supprimé avec succès.');
+        return redirect()->route('bordereau_envois.index')->with('success', 'Courrier réceptionné supprimé avec succès.');
     }
 
-    $bordereauEnvoi->delete();
+    public function generatePdf($id_bordereau)
+    {
+        $bordereauEnvoi = BordereauEnvoi::findOrFail($id_bordereau);
+        $pdf = new Dompdf();
+        $pdf->loadHtml(view('pages.bordereau_envois.show', compact('bordereauEnvoi'))->render());
+        $pdf->setPaper('A4', 'portrait');
+        $pdf->render();
+        return $pdf->stream('courrierdepart.pdf');
+    }
 
-    Flash::info('success', 'Bordereau supprimé avec succès.');
-    return redirect()->route('bordereau_envois.index')->with('success', 'Courrier réceptionné supprimé avec succès.');
-}
-   
-
-public function generatePdf($id_bordereau)
-{
-    $bordereauEnvoi = BordereauEnvoi::findOrFail($id_bordereau);
-    $pdf = new Dompdf();
-    $pdf->loadHtml(view('pages.bordereau_envois.show', compact('bordereauEnvoi'))->render());
-    $pdf->setPaper('A4', 'portrait');
-    $pdf->render();
-    return $pdf->stream('courrierdepart.pdf');
-}
-
-public function downloadFile($id_bordereau)
+    public function downloadFile($id_bordereau)
     {
         $bordereauEnvoi = BordereauEnvoi::findOrFail($id_bordereau);
 
@@ -207,7 +210,6 @@ public function downloadFile($id_bordereau)
         }
     }
 
-    // Méthode pour supprimer le fichier attaché à un courrier reçu
     public function deleteFile($id_bordereau)
     {
         $bordereauEnvoi = BordereauEnvoi::findOrFail($id_bordereau);
@@ -220,9 +222,10 @@ public function downloadFile($id_bordereau)
 
         return redirect()->back()->with('success', 'Le fichier a été supprimé avec succès.');
     }
+
     public function viewPdf($id_bordereau)
-{
-    $bordereauEnvoi = BordereauEnvoi::findOrFail($id_bordereau);
-    return view('pages.bordereau_envois.view_pdf', compact('bordereauEnvoi'));
-}
+    {
+        $bordereauEnvoi = BordereauEnvoi::findOrFail($id_bordereau);
+        return view('pages.bordereau_envois.view_pdf', compact('bordereauEnvoi'));
+    }
 }

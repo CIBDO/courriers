@@ -17,15 +17,18 @@ class BordereauEnvoi extends Model
         'priorite',
         'confidentialite',
         'id_courrier',
-        'designation',
-        'destinateur',
         'id_disposition',
         'id_signataire',
-        'nbre_piece',
         'statut',
+        'destinateur',
+        'total_pieces',
         'charger_courrier',
     ];
-
+    public function pieces()
+    {
+        return $this->hasMany(Piece::class, 'id_bordereau'); // Assurez-vous que la clé étrangère est id_bordereau dans la table pieces
+    }
+   
     public function courrier()
     {
         return $this->belongsTo(Courrier::class, 'id_courrier');

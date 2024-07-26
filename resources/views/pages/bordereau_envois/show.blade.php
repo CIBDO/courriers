@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -46,33 +46,35 @@
             text-align: right;
         }
         .right-align {
-  float: right; /* Aligner à droite */
-  }
-  .entete {
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  font-size: 18px;
-  font-weight: bold; 
-}
-.entete1 {
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  font-size: 22px; 
-}
-.signature {
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  font-size: 20px; 
-  font-weight: bold;
-}
-.signature1 {
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  font-size: 20px; 
-  font-weight: bold;
-}
-.st {
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  font-size: 20px; 
-  font-weight: bold;
-}
-  
+            float: right;
+        }
+        .center-align {
+            text-align: center;
+        }
+        .entete {
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            font-size: 18px;
+            font-weight: bold; 
+        }
+        .entete1 {
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            font-size: 22px; 
+        }
+        .signature {
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-size: 20px; 
+            font-weight: bold;
+        }
+        .signature1 {
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-size: 20px; 
+            font-weight: bold;
+        }
+        .st {
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-size: 20px; 
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -80,58 +82,50 @@
         <div class="header">
             <p>MINISTERE DE L'ECONONOMIE <span class="right-align">REPUBLIQUE DU MALI</span></p>
             <p style="margin-left: 25px;">ET DES FINANCES <span class="right-align">Un Peuple Un But Une Foi</span></p>
-               <p style="margin-left: 35px;">_=_=_=_=_=_=_=_</p>
+            <p style="margin-left: 35px;">_=_=_=_=_=_=_=_</p>
             <p>DIRECTION NATIONALE DU TRESOR </p>
             <p>ET DE LA COMPTABILITE PUBLIQUE </p>
-              <p style="margin-left: 35px;">_=_=_=_=_=_=_=_</p>
-              <p>TRESORERIER REGIONAL DE SIKASSO</p>
-              <br>
-              <p style="margin-right: 50px;"><span class="right-align">Sikasso,le {{$bordereauEnvoi->date_bordereau}} </span></p>
-              <br>
-              <br>
-              <br>
-              
-            <div class="align-right">
+            <p style="margin-left: 35px;">_=_=_=_=_=_=_=_</p>
+            <p>TRESORERIER REGIONAL DE SIKASSO</p>
+            <br>
+            <p style="margin-right: 50px;"><span class="right-align">Sikasso, le {{ \Carbon\Carbon::parse($bordereauEnvoi->date_bordereau)->format('d/m/Y') }}</span></p>
+            <br>
+            <div style="text-align: center;">
                 <p class="entete">Le Trésorier Payeur Régional de Sikasso</p>
-                <p class="entete1" style="margin-right: 180px;">A</p>
-                <p>{{$bordereauEnvoi->destinateur}}</p>
-                <br>
+                <p class="entete1">A</p>
+                <p>{{ $bordereauEnvoi->destinateur }}</p>
                 <br>
             </div>
         </div>
-
         <h3>BORDEREAU D'ENVOI N° 2024_______/MEF/TPR-SIKASSO</h3>
-        
         <table class="bordereau-info">
             <tr>
                 <th style="text-align: left;">Désignation</th>
-        <th style="text-align: center;">Nbre de Pièces</th>
-        <th style="text-align: center; width: 120px; word-wrap: break-word;">Observations</th>
-
+                <th style="text-align: center;">Nbre de Pièces</th>
+                <th style="text-align: center; width: 120px; word-wrap: break-word;">Observations</th>
             </tr>
+            @foreach ($bordereauEnvoi->pieces as $piece)
             <tr>
-                <td >{{$bordereauEnvoi->designation}} </td>
-                <td style="text-align: center;">{{$bordereauEnvoi->nbre_piece}} </td>
-                <td>{{$bordereauEnvoi->disposition->nom_disposition}}</td>
+                <td>{{ $piece->designation }}</td>
+                <td style="text-align: center;">{{ $piece->nbre_piece }}</td>
+                <td>{{ $bordereauEnvoi->disposition->nom_disposition }}</td>
             </tr>
-            
+            @endforeach
             <tr>
-                <td class="st" >Total</td>
-                <td class="st" style="text-align: center;">{{$bordereauEnvoi->nbre_piece}}</td>
+                <td class="st">Total</td>
+                <td class="st" style="text-align: center;">{{ $bordereauEnvoi->pieces->sum('nbre_piece') }}</td>
                 <td></td>
-                
             </tr>
         </table>
 
         <div class="footer">
             <p class="signature" style="margin-right: 100px;"><span class="right-align">Le Trésorier Payeur </span></p>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-         <p class="signature1" style="margin-right: 100px;"><span class="right-align"><u>{{$bordereauEnvoi->signataire->nom}}</u> </span></p>
-         <p style="margin-left: 35%;"><i>Inspecteur de Trésor</i></p>
+            <br>
+            <br>
+            <br>
+            <p class="signature1" style="margin-right: 100px;"><span class="right-align"><u>{{ $bordereauEnvoi->signataire->nom }}</u></span></p>
+            <p style="margin-left: 35%;"><i>Inspecteur de Trésor</i></p>
+        </div>
     </div>
 </body>
 </html>
