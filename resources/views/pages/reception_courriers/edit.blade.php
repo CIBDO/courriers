@@ -25,7 +25,7 @@
                                 <div class="col-lg-3 col-md-3 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Référence <span class="required">*</span></label>
-                                        <input type="text" class="form-control" name="reference" value="{{ $receptionCourrier->reference }}" required>
+                                        <input type="text" class="form-control" name="reference" value="{{ $receptionCourrier->reference }}"readonly style="background-color: #e9ecef; color: #495057;"> required>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-sm-12">

@@ -140,6 +140,9 @@ Route::delete('/bordereau-envois/{bordereauEnvoi}', [BordereauEnvoiController::c
 Route::get('/bordereau_envois/{bordereauEnvoi}/pdf', [BordereauEnvoiController::class, 'generatePdf'])->name('bordereau_envois.pdf');
 Route::get('/bordereau_envois/{bordereauEnvoi}/voir', [BordereauEnvoiController::class, 'voir'])->name('bordereau_envois.voir');
 
+Route::get('{id_bordereau}/download', [BordereauEnvoiController::class, 'downloadFile'])->name('bordereau_envois.downloadFile');
+Route::get('{id_bordereau}/delete', [BordereauEnvoiController::class, 'deleteFile'])->name('bordereau_envois.deleteFile');
+
 
 Route::get('/reception_courriers/{id_reception_courrier}/pdf', [ReceptionCourrierController::class, 'generatePdf'])->name('reception_courriers.pdf');
 
