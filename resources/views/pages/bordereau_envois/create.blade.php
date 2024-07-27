@@ -1,12 +1,12 @@
 @extends('layouts.master')
+
 @section('content')
-   <div class="content-body">
+<div class="content-body">
     <!-- row -->
     <div class="container-fluid">
-
         <div class="col-sm-12 p-md-0">
             <div class="welcome-text">
-                <h3>Création d'un nouveau Bordereau d'Envoi </h3>
+                <h3>Création d'un Nouveau Bordereau d'Envoi</h3>
             </div>
         </div>
         
@@ -20,19 +20,20 @@
                         <form method="POST" action="{{ route('bordereau_envois.store') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
-                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                <!-- Informations de base -->
+                                <div class="col-lg-4 col-md-4 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Référence du Bordereau <span class="required">*</span></label>
-                                        <input type="text" class="form-control" name="reference_bordereau" required>
+                                        <input type="text" class="form-control" name="reference_bordereau" placeholder="Référence" required>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                <div class="col-lg-4 col-md-4 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Date du Bordereau <span class="required">*</span></label>
                                         <input type="date" class="form-control" name="date_bordereau" value="{{ date('Y-m-d') }}" required>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                <div class="col-lg-4 col-md-4 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Priorité <span class="required">*</span></label>
                                         <select class="form-control" name="priorite">
@@ -43,7 +44,8 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                
+                                <div class="col-lg-4 col-md-4 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Confidentialité <span class="required">*</span></label>
                                         <select class="form-control" name="confidentialite">
@@ -53,68 +55,73 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                
+                                <div class="col-lg-4 col-md-4 col-sm-12">
                                     <div class="form-group">
-                                        <label> Courrier <span class="required">*</span></label>
-                                        <select class="form-control " name="id_courrier">
-                                            <option selected disabled>Choisir le type de courrier </option>
+                                        <label class="form-label">Courrier <span class="required">*</span></label>
+                                        <select class="form-control" name="id_courrier">
+                                            <option selected disabled>Choisir le type de courrier</option>
                                             @foreach($courriers as $courrier)
                                                 <option value="{{ $courrier->id_courrier }}">{{ $courrier->type_courrier }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                
+                                <div class="col-lg-4 col-md-4 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Annotation <span class="required">*</span></label>
                                         <select class="form-control" name="id_disposition">
-                                            <option selected disabled>Choisir l'Annotation </option>
+                                            <option selected disabled>Choisir l'Annotation</option>
                                             @foreach($dispositions as $disposition)
                                                 <option value="{{ $disposition->id_disposition }}">{{ $disposition->nom_disposition }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                
+                                <div class="col-lg-4 col-md-4 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Signataire <span class="required">*</span></label>
                                         <select class="form-control" name="id_signataire">
-                                            <option selected disabled>Choisir le signataire </option>
+                                            <option selected disabled>Choisir le signataire</option>
                                             @foreach($signataires as $signataire)
                                                 <option value="{{ $signataire->id_signataire }}">{{ $signataire->nom }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                
+                                <div class="col-lg-4 col-md-4 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Statut <span class="required">*</span></label>
                                         <select class="form-control" name="statut">
-                                            <option selected disabled>Choisir le statut </option>
+                                            <option selected disabled>Choisir le statut</option>
                                             <option value="Envoyé">Envoyé</option>
                                             <option value="Rejeté">Rejeté</option>
                                         </select>
                                     </div>
                                 </div>
                                 
-                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                <div class="col-lg-4 col-md-4 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Charger le Courrier (PDF)</label>
                                         <input type="file" class="form-control" name="charger_courrier" accept="application/pdf">
                                     </div>
                                 </div>
                                 
-                               <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Destinateur <span class="required">*</span></label>
-                                        <textarea class="form-control" name="destinateur" rows="2"></textarea>
+                                        <textarea class="form-control" name="destinateur" rows="3" placeholder="Nom et adresse du destinateur" required></textarea>
                                     </div>
                                 </div>
+                                
                                 <!-- Section pour ajouter dynamiquement des désignations et nombres de pièces -->
                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                     <div class="form-group">
-                                        {{-- <label class="form-label">Désignations et Nombres de Pièces <span class="required">*</span></label> --}}
-                                        <table class="table" id="designationTable">
+                                        <label class="form-label">Désignations et Nombres de Pièces</label>
+                                        <table class="table table-bordered" id="designationTable">
                                             <thead>
                                                 <tr>
                                                     <th>Désignation</th>
@@ -145,6 +152,7 @@
                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                        <a href="{{ route('bordereau_envois.index') }}" class="btn btn-secondary">Retour à la Liste</a>
                                     </div>
                                 </div>
                             </div>
@@ -153,7 +161,6 @@
                 </div>
             </div>
         </div>
-        
     </div>
 </div>
 
