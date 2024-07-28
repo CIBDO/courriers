@@ -65,29 +65,29 @@
             </li>
             <li><a href="javascript:void()" aria-expanded="false">
                     <i class="la la-building"></i>
-                    <span class="nav-text">Gestion E.D</span>
+                    <span class="nav-text">Les Comptes</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="all-departments.html">Fonds</a></li>
-                    <li><a href="add-departments.html">Type de Document</a></li>
-                    <li><a href="edit-departments.html">Localisation</a></li>
+                    <li><a href="{{ route('users.create') }}">Créer un Compte</a></li>
+                    <li><a href="{{ route('users.index') }}">Liste des Utilisateurs</a></li>
                 </ul>
             </li>
             <li><a href="javascript:void()" aria-expanded="false">
-                    <i class="la la-archive"></i>
-                    <span class="nav-text">Archivages</span>
+                    <i class="la la-building"></i>
+                    <span class="nav-text">Les Rôles</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="all-staff.html">Archivé</a></li>
-                    <li><a href="add-staff.html">Liste Documents</a></li>
+                    <li><a href="{{ route('roles.create') }}">Créer un Rôle</a></li>
+                    <li><a href="{{ route('roles.index') }}">Liste des Rôles</a></li>
                 </ul>
             </li>
             <li><a href="javascript:void()" aria-expanded="false">
-                    <i class="la la-gift"></i>
-                    <span class="nav-text">Profils</span>
+                    <i class="la la-building"></i>
+                    <span class="nav-text">Les Permissions</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="all-holiday.html">Liste Profils</a></li>
+                    <li><a href="{{ route('permissions.create') }}">Gérer les Autorisations</a></li>
+                    <li><a href="{{ route('permissions.index') }}">Les Autorisations </a></li>
                 </ul>
             </li>
         </ul>
