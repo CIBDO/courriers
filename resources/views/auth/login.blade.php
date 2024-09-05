@@ -35,10 +35,10 @@
                 <form class="form" method="POST" action="{{ route('register') }}">
                     @csrf
                     <label for="chk" aria-hidden="true">S'inscrire</label>
-                    <input class="input" type="text" name="name" placeholder="Username" required>
+                    <input class="input" type="text" name="name" placeholder="Nom & Prénoms" required>
                     <input class="input" type="email" name="email" placeholder="Email" required>
-                    <input class="input" type="password" name="password" placeholder="Password" required>
-                    <input class="input" type="password" name="password_confirmation" placeholder="Confirm Password" required>
+                    <input class="input" type="password" name="password" placeholder="Mot de Passe" required>
+                    <input class="input" type="password" name="password_confirmation" placeholder="Confirmer le Mot de Passe" required>
                     <button type="submit">S'inscrire</button>
                 </form>
 

@@ -11,6 +11,8 @@
 |
 */
 
+use App\Http\Middleware\UserMiddleware;
+
 $app = new Illuminate\Foundation\Application(
     $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
 );
@@ -41,6 +43,9 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
+$middleware->alias([
+'userMiddleware'=>UserMiddleware::class,
+]);
 /*
 |--------------------------------------------------------------------------
 | Return The Application
