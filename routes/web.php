@@ -44,13 +44,13 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     // Permissions and roles routes
-    Route::middleware(['role:super-admin|admin|agent'])->group(function () {
+   /*  Route::middleware(['role:super-admin|admin|agent'])->group(function () {
         Route::resource('permissions', PermissionController::class);
         Route::get('permissions/{permissionId}/delete', [PermissionController::class, 'destroy'])->name('permissions.destroy');
         Route::resource('roles', RoleController::class);
         Route::get('roles/{roleId}/delete', [RoleController::class, 'destroy'])->name('roles.destroy');
         Route::get('roles/{roleId}/give-permissions', [RoleController::class, 'addPermissionToRole'])->name('roles.addPermissionToRole');
-        Route::put('roles/{roleId}/give-permissions', [RoleController::class, 'givePermissionToRole'])->name('roles.givePermissionToRole');
+        Route::put('roles/{roleId}/give-permissions', [RoleController::class, 'givePermissionToRole'])->name('roles.givePermissionToRole'); */
         Route::resource('users', UserController::class);
        /*  Route::get('users/{userId}/delete', [UserController::class, 'destroy'])->name('users.destroy'); */
             // Services routes
@@ -107,7 +107,7 @@ Route::middleware(['auth'])->group(function () {
         // Courrier interne routes
         Route::resource('courrier-internes', CourrierInterneController::class);
 
-    });
+   /*  }); */
 
 });
 

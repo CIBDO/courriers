@@ -76,19 +76,19 @@
                     <i class="la la-building"></i>
                     <span class="nav-text">Les Rôles</span>
                 </a>
-                <ul aria-expanded="false">
+                {{-- <ul aria-expanded="false">
                     <li><a href="{{ route('roles.create') }}">Créer un Rôle</a></li>
                     <li><a href="{{ route('roles.index') }}">Liste des Rôles</a></li>
-                </ul>
+                </ul> --}}
             </li>
             <li><a href="javascript:void()" aria-expanded="false">
                     <i class="la la-building"></i>
                     <span class="nav-text">Les Permissions</span>
                 </a>
-                <ul aria-expanded="false">
+                {{-- <ul aria-expanded="false">
                     <li><a href="{{ route('permissions.create') }}">Gérer les Autorisations</a></li>
                     <li><a href="{{ route('permissions.index') }}">Les Autorisations </a></li>
-                </ul>
+                </ul> --}}
             </li>
         </ul>
     </div>

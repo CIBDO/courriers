@@ -43,9 +43,10 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
-$middleware->alias([
-'userMiddleware'=>UserMiddleware::class,
-]);
+/* $app->routeMiddleware([
+    'userMiddleware' => UserMiddleware::class,
+]); */
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application
