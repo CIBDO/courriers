@@ -26,6 +26,7 @@ class ReceptionCourrier extends Model
         'nbre_piece',
         'charger_courrier',
         'statut',
+        'id_signataire',
     ];
 
     public function courrier()
@@ -42,8 +43,17 @@ class ReceptionCourrier extends Model
     {
         return $this->belongsTo(Personnel::class, 'id_personnel');
     }
+    public function signataire()
+    {
+        return $this->belongsTo(Signataire::class, 'id_signataire');
+    }
     public function imputations()
     {
         return $this->hasMany(Imputation::class, 'id_courrier_reception');
+    }
+
+    public function dispositions()
+    {
+        return $this->belongsToMany(Disposition::class, 'imputation_disposition', 'id_courrier_reception', 'id_disposition');
     }
 }

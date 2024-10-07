@@ -1,80 +1,266 @@
- @extends('layouts.master')
-@section('content')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Fiche de Circulation de courrier "Arrivée" </title>
 
-<div class="content-body">
-    <div class="container-fluid">
-        <div class="col-sm-12 p-md-0">
-            <div class="welcome-text">
-                <h3>Détails du Courrier Interne</h3>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xl-12 col-xxl-12 col-sm-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title">Informations de base</h5>
-                    </div>
-                    <div class="card-body">
-                        <dl class="row">
-                            <!-- Détails Référence -->
-                            <dt class="col-sm-3">Référence</dt>
-                            <dd class="col-sm-9">{{ $courrierInterne->reference }}</dd>
+    <style>
+        html,
+        body {
+            margin: 10px;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+        }
+        h1,h2,h3,h4,h5,h6,p,span,label {
+            font-family: Arial, sans-serif;
+            line-height: 1; 
+        }
+        p.section-heading {
+            line-height: 1; /* Ajuster l'interligne pour les h5 */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 0px !important;
+        }
+        table thead th {
+            height: 20px;
+            text-align: left;
+            font-size: 14px;
+            font-family: sans-serif;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            font-size: 14px;
+        }
 
-                            <!-- Détails Date du Courrier -->
-                            <dt class="col-sm-3">Date du Courrier</dt>
-                            <dd class="col-sm-9">{{ $courrierInterne->date_creation }}</dd>
+        .heading {
+            font-size: 24px;
+            margin-top: 12px;
+            margin-bottom: 12px;
+            font-family: sans-serif;
+        }
+        .small-heading {
+            font-size: 18px;
+            font-family: sans-serif;
+        }
+        .total-heading {
+            font-size: 16px;
+            font-weight: 700;
+            font-family: sans-serif;
+        }
+        .order-details tbody tr td:nth-child(1) {
+            width: 20%;
+        }
+        .order-details tbody tr td:nth-child(3) {
+            width: 20%;
+        }
+        
 
-                            <!-- Détails Courrier -->
-                            <dt class="col-sm-3">Courrier</dt>
-                            <dd class="col-sm-9">{{ $courrierInterne->courrier->type_courrier }}</dd>
+        .text-start {
+            text-align: left;
+        }
+        .text-end {
+            text-align: right;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .company-data span {
+            margin-bottom: 4px;
+            display: inline-block;
+            font-family: sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+        }
+        .no-border {
+            border: 1px solid #fff !important;
+        }
+        .bg-blue {
+            background-color: #414ab1;
+            color: #fff;
+        }
+        .right-align {
+            float: right; /* Aligner à droite */
+        }
+        .left-align {
+            float: left; /* Aligner à gauche */
+        }
+        .header {
+            margin-bottom: 20px;
+        }
+        .header p {
+            margin: 5px 0;
+        }
+        .entete1 {
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: 22px; 
+}
+.signature {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 18px; 
+  font-weight: bold;
+}
+.signature1 {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 20px; 
+  font-weight: bold;
+}
+footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        text-align: center; /* Centrage du texte */
+        font-size: 12px;
+        padding: 10px 0; /* Ajout de padding pour éviter que le texte touche les bords */
+        border-top: 4px solid #000; /* Ligne horizontale épaisse */
+        background: #fff; /* Fond blanc pour assurer la visibilité du texte et de la ligne */
+    }
+    .footer-content {
+        width: 100%; /* Utilisation de toute la largeur disponible */
+        display: block; /* Assure que le contenu est traité comme un bloc */
+    }
+  
+  </style>
+</head>
+<body>  
 
-                            <!-- Détails Division -->
-                            <dt class="col-sm-3">Division</dt>
-                            <dd class="col-sm-9">{{ $courrierInterne->service->nom_service }}</dd>
-
-                            <!-- Détails Agent concerné -->
-                            <dt class="col-sm-3">Agent concerné</dt>
-                            <dd class="col-sm-9">{{ $courrierInterne->personnel->prenom_personnel }} {{ $courrierInterne->personnel->nom_personnel }}</dd>
-
-                            <!-- Détails Approuvé par -->
-                            <dt class="col-sm-3">Approuvé par</dt>
-                            <dd class="col-sm-9">{{ $courrierInterne->signataire->nom }}</dd>
-
-                            <!-- Détails Annotation -->
-                            <dt class="col-sm-3">Annotation</dt>
-                            <dd class="col-sm-9">{{ $courrierInterne->disposition->nom_disposition }}</dd>
-
-                            <!-- Détails Statut -->
-                            <dt class="col-sm-3">Statut</dt>
-                            <dd class="col-sm-9">{{ $courrierInterne->statut }}</dd>
-
-                            <!-- Détails Nombre de Pièces -->
-                            <dt class="col-sm-3">Nombre de Pièces</dt>
-                            <dd class="col-sm-9">{{ $courrierInterne->nbre_piece }}</dd>
-
-                            <!-- Détails Objet du Courrier -->
-                            <dt class="col-sm-3">Objet du Courrier</dt>
-                            <dd class="col-sm-9">{{ $courrierInterne->objet }}</dd>
-
-                            <!-- Détails Observations -->
-                            <dt class="col-sm-3">Observations</dt>
-                            <dd class="col-sm-9">{{ $courrierInterne->observation }}</dd>
-                            
-                            <!-- Détails Fichier Courrier -->
-                            @if($courrierInterne->charger_courrier)
-                                <dt class="col-sm-3">Fichier Courrier</dt>
-                                <dd class="col-sm-9">
-                                    <a href="{{ asset('storage/' . $courrierInterne->charger_courrier) }}" target="_blank">Voir le fichier</a>
-                                </dd>
-                            @endif
-                        </dl>
-                        <a href="{{ route('courrier-internes.edit', $courrierInterne->id_courrierinterne) }}" class="btn btn-warning">Modifier</a>
-                        <a href="{{ route('courrier-internes.index') }}" class="btn btn-secondary">Retour à la liste</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="header">
+    <p>DIRECTION NATIONALE DU TRESOR <span class="right-align">REPUBLIQUE DU MALI</span></p>
+    <p>ET DE LA COMPTABILITE PUBLIQUE <span class="right-align">Un Peuple - Un But - Une Foi</span> </p>
+    <p style="margin-left: 45px;">_=_=_=_=_=_=_=_</p>
+    <p >TRESORERIER REGIONAL DE SIKASSO</p>
 </div>
-
-@endsection
+<H2><center>FICHE DE CIRCULATION DE COURRIER "INTERNE"</center></H2> 
+    <table class="courrierInterne">
+        <thead>  
+            <tr class="bg-blue">
+                <th width="25%" colspan="1">Référence</th>
+                <th width="25%" colspan="1">Date de création</th>
+                <th width="50%" colspan="1">Type de courrier</th>           
+            </tr>
+        </thead>
+        <tr>
+            <td>{{ $courrierInterne->reference }}</td>
+            <td>{{ $courrierInterne->date_creation }}</td>
+            <td>{{ $courrierInterne->courrier->type_courrier }}</td>
+        </tr>
+    </table>
+    <table class="courrierInterne">
+        <thead> 
+            <tr class="bg-blue">
+                <th width="25%" colspan="1">Division/Service</th>
+                <th width="25%" colspan="1">Agent concerné</th>
+                <th width="25%" colspan="1">Annotation</th>
+                <th width="25%" colspan="1">Observations</th>
+            </tr>
+        </thead>        
+        <tr>
+            <td> {{$courrierInterne->service->nom_service }}</td>
+            <td>{{ $courrierInterne->personnel->prenom_personnel }} {{ $courrierInterne->personnel->nom_personnel }}</td>
+            <td>{{ $courrierInterne->disposition->nom_disposition }}</td>
+            <td>{{ $courrierInterne->observation }}</td>
+        </tr>
+    </table>
+    <table class="courrierInterne">
+    <div class="section-heading"><center>OBJET</center></div>
+        <thead>
+            <tr>            
+                <td><b>{{ $courrierInterne->objet }}</b></td>
+            </tr>
+    </table>
+    <div class="section-heading"><center>IMPUTATION</center></div>
+    <table border="1">
+    <tr>
+        <td style="padding: 10px;">&nbsp;</td>
+        <td>Trésorier Payeur</td>
+        <td style="padding: 10px;">&nbsp;</td>
+        <td>1° Fondé</td>
+        <td style="padding: 10px;">&nbsp;</td>
+        <td>2° Fondé</td>
+        <td style="padding: 10px;">&nbsp;</td>
+        <td>Div. Dépenses Visas</td>
+    </tr>
+    <tr>
+        <td style="padding: 10px;">&nbsp;</td>
+        <td>Div. Collectivités</td>
+        <td style="padding: 10px;">&nbsp;</td>
+        <td>Div. Comptabilité</td>
+        <td style="padding: 10px;">&nbsp;</td>
+        <td>Div. Recettes</td>
+        <td style="padding: 10px;">&nbsp;</td>
+        <td>Div. Centralisation</td>
+    </tr>
+    <tr>
+        <td style="padding: 10px;">&nbsp;</td>
+        <td>Secrétariat</td>
+        <td style="padding: 10px;">&nbsp;</td>
+        <td>Comptabilité Matières</td>
+        <td style="padding: 10px;">&nbsp;</td>
+        <td>Toutes les Divisions</td>
+        <td style="padding: 10px;">&nbsp;</td>
+        <td>Archive</td>
+    </tr>
+</table>
+<div class="section-heading"><center>ANNOTATION</center></div>
+<table border="1">
+    <tr>
+        <td></td>
+        <td>Pour disposition à prendre</td>
+        <td></td>
+        <td>Pour attribution</td>
+        <td></td>
+        <td>M'en parler</td>
+        <td></td>
+        <td>Pour élément de réponse</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Remis à l'intéressé</td>
+        <td></td>
+        <td>Pour diffusion</td>
+        <td></td>
+        <td>A saisir</td>
+        <td></td>
+        <td>Pour supervision</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Pour représentation </td>
+        <td></td>
+        <td>Urgent</td>
+        <td></td>
+        <td>A classer</td>
+        <td></td>
+        <td>En instance</td>
+    </tr>
+    <tr>
+        <td style="padding: 10px;">&nbsp;</td>
+        <td>information</td>
+        <td style="padding: 10px;">&nbsp;</td>
+        <td>M'accompagner</td>
+        <td style="padding: 10px;">&nbsp;</td>
+        <td>Pour lecture</td>
+        <td style="padding: 10px;">&nbsp;</td>
+        <td>Exploitation</td>
+    </tr>
+</table>
+ <p style="margin-right: 50px;"><span class="right-align">Bamako, le {{ date('d-m-Y') }}</span></p>
+ <br style=" margin-bottom: -10px;">
+ <p class="signature">
+    <span class="right-align">
+        <u>{{ $courrierInterne->signataire ? $courrierInterne->signataire->fonction : 'Fonction non disponible' }}</u>
+    </span>
+</p><br>
+ <p><center><u><b>DIVISION</b></u></center></p><br>                
+    <p class="signature">Agent Traitant <span class="right-align"><u>Le Chef de Division</u></span></p>               
+ </div> 
+ <footer>
+    <div class="footer-content">
+      <p>Adresse : {Votre Adresse}</p>
+    </div>
+</footer>
+</body>
+</html>

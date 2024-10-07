@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\CourrierReception;
+use App\Models\Imputation;
 
 class Disposition extends Model
 {
@@ -16,4 +18,8 @@ class Disposition extends Model
     {
         return $this->belongsToMany(Imputation::class, 'imputation_disposition', 'id_disposition', 'id_imputation');
     }
+  /*   public function courrierReceptions()
+    {
+        return $this->belongsToMany(CourrierReception::class, 'imputation_disposition', 'id_disposition', 'id_courrier_reception');
+    } */
 }

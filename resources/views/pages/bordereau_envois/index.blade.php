@@ -81,7 +81,7 @@
                                     <th>Date </th>
                                     <th>Annotation</th>
                                     <th>Type de Courrier</th>
-                                    <th>Action</th>
+                                    {{-- <th>Action</th> --}}
                                 </tr>
                             </thead>
                             <tbody>               
@@ -92,7 +92,7 @@
                                     <td>{{ $bordereauEnvoi->date_bordereau }}</td>
                                     <td>{{ $bordereauEnvoi->disposition->nom_disposition }}</td>
                                     <td>{{ $bordereauEnvoi->courrier->type_courrier }}</td>
-                                    <td>{{ $bordereauEnvoi->statut }}</td>
+                                    {{-- <td>{{ $bordereauEnvoi->statut }}</td> --}}
                                     <td>
                                         <a href="{{ route('bordereau_envois.edit', $bordereauEnvoi->id_bordereau) }}"  class="btn btn-primary"><i class="la la-pencil"></i></a>
                                         {{-- <a href="{{ route('bordereau_envois.show', $bordereauEnvoi->id_bordereau) }}" class="btn btn-info"><i class="la la-print"></i></a> --}}

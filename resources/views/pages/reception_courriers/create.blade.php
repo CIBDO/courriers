@@ -1,5 +1,15 @@
 @extends('layouts.master')
 @section('content')
+<!-- Affichage des erreurs de validation -->
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>   
+    </div>
+@endif
 <div class="content-body">
     <!-- row -->
     <div class="container-fluid">
@@ -88,9 +98,20 @@
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-sm-12">
                                     <div class="form-group">
-                                        <label>Secrétariat <span class="required">*</span></label>
+                                        <label>Signataire <span class="required">*</span></label>
+                                        <select class="form-control" name="id_signataire">
+                                            <option selected disabled>Choisir le signataire</option>
+                                            @foreach($signataires as $signataire)
+                                                <option value="{{ $signataire->id_signataire }}">{{ $signataire->fonction }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                    <div class="form-group">
+                                        <label>Réceptionniste <span class="required">*</span></label>
                                         <select class="form-control" name="id_personnel">
-                                            <option selected disabled>Choisir chargée du suivi</option>
+                                            <option selected disabled>Choisir le réceptionniste</option>
                                             @foreach($personnels as $personnel)
                                                 <option value="{{ $personnel->id_personnel }}">{{ $personnel->prenom_personnel }} {{ $personnel->nom_personnel }}</option>
                                             @endforeach
@@ -115,6 +136,7 @@
                                         <input type="number" class="form-control" name="nbre_piece" min="1" required>
                                     </div>
                                 </div>
+                                
                                 <div class="col-lg-3 col-md-3 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Charger le Courrier (Image ou PDF)</label>

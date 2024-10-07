@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Courrier extends Model
 {
     protected $primaryKey = 'id_courrier';
-    protected $fillable = ['type_courrier'];
+    protected $fillable = ['type_courrier'];    
+    
 }

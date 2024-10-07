@@ -8,10 +8,15 @@ use App\Models\Service;
 use App\Models\Personnel;
 use App\Models\Signataire;
 use App\Models\Disposition;
+use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use HepplerDotNet\FlashToastr\Flash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Pagination\LengthAwarePaginator;
+use PDF; // Ajoutez cette ligne pour importer la classe PDF
+
+
+
 class CourrierInterneController extends Controller
 {
     public function index(Request $request)
@@ -183,4 +188,48 @@ class CourrierInterneController extends Controller
     Flash::info('success', 'Courrier réceptionné supprimé avec succès.');
     return redirect()->route('reception_courriers.index')->with('success', 'Courrier réceptionné supprimé avec succès.');
     }
+
+    public function generatePdf($id_courrier_interne)
+    {
+        $courrierInterne = CourrierInterne::findOrFail($id_courrier_interne);
+        $pdf = new Dompdf();
+        $pdf->loadHtml(view('pages.courriers-internes.show', compact('courrierInterne'))->render());
+        $pdf->setPaper('A4', 'portrait');
+        $pdf->render();
+        return $pdf->stream('courrierInterne.pdf');
+    }
+
+    public function downloadFile($id_courrier_interne)
+    {
+        $courrierInterne = CourrierInterne::findOrFail($id_courrier_interne);
+
+        if ($courrierInterne->charger_courrier) {
+            $filePath = storage_path('app/public/fichier/courrier/' . basename($courrierInterne->charger_courrier));
+            if (file_exists($filePath)) {
+                return response()->download($filePath, basename($courrierInterne->charger_courrier));
+            } else {
+                return redirect()->back()->with('error', 'Le fichier n\'existe pas.');
+            }
+        } else {
+            return redirect()->back()->with('error', 'Aucun fichier attaché.');
+        }
+    }
+
+    public function viewPdf($id_courrier_interne)
+    {
+        $courrierInterne = CourrierInterne::findOrFail($id_courrier_interne);
+        return view('pages.courriers-internes.view_pdf', compact('courrierInterne'));
+    }
+
+    public function showPdf($id)
+{
+    $courrierInterne = CourrierInterne::find($id);
+    if (!$courrierInterne) {
+        abort(404);
+    }
+
+    // Génération du PDF
+    $pdf = PDF::loadView('pages.courriers-internes.show', compact('courrierInterne'));
+    return $pdf->download('courrier-interne.pdf');
+}
 }

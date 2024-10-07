@@ -107,7 +107,23 @@
   font-size: 20px; 
   font-weight: bold;
 }
-    </style>
+footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        text-align: center; /* Centrage du texte */
+        font-size: 12px;
+        padding: 10px 0; /* Ajout de padding pour éviter que le texte touche les bords */
+        border-top: 4px solid #000; /* Ligne horizontale épaisse */
+        background: #fff; /* Fond blanc pour assurer la visibilité du texte et de la ligne */
+    }
+    .footer-content {
+        width: 100%; /* Utilisation de toute la largeur disponible */
+        display: block; /* Assure que le contenu est traité comme un bloc */
+    }
+  
+  </style>
 </head>
 <body>  
 
@@ -158,33 +174,33 @@
     <div class="section-heading"><center>IMPUTATION</center></div>
     <table border="1">
     <tr>
-        <td></td>
+        <td style="padding: 10px;">&nbsp;</td>
         <td>Trésorier Payeur</td>
-        <td></td>
+        <td style="padding: 10px;">&nbsp;</td>
         <td>1° Fondé</td>
-        <td></td>
+        <td style="padding: 10px;">&nbsp;</td>
         <td>2° Fondé</td>
-        <td></td>
+        <td style="padding: 10px;">&nbsp;</td>
         <td>Div. Dépenses Visas</td>
     </tr>
     <tr>
-        <td></td>
+        <td style="padding: 10px;">&nbsp;</td>
         <td>Div. Collectivités</td>
-        <td></td>
+        <td style="padding: 10px;">&nbsp;</td>
         <td>Div. Comptabilité</td>
-        <td></td>
+        <td style="padding: 10px;">&nbsp;</td>
         <td>Div. Recettes</td>
-        <td></td>
+        <td style="padding: 10px;">&nbsp;</td>
         <td>Div. Centralisation</td>
     </tr>
     <tr>
-        <td>__</td>
+        <td style="padding: 10px;">&nbsp;</td>
         <td>Secrétariat</td>
-        <td>__</td>
+        <td style="padding: 10px;">&nbsp;</td>
         <td>Comptabilité Matières</td>
-        <td>__</td>
+        <td style="padding: 10px;">&nbsp;</td>
         <td>Toutes les Divisions</td>
-        <td>__</td>
+        <td style="padding: 10px;">&nbsp;</td>
         <td>Archive</td>
     </tr>
 </table>
@@ -221,21 +237,30 @@
         <td>En instance</td>
     </tr>
     <tr>
-        <td>__</td>
-        <td>Pour information</td>
-        <td>__</td>
+        <td style="padding: 10px;">&nbsp;</td>
+        <td>information</td>
+        <td style="padding: 10px;">&nbsp;</td>
         <td>M'accompagner</td>
-        <td>__</td>
-        <td>Pour  lecture</td>
-        <td>__</td>
-        <td>Pour Exploitation</td>
+        <td style="padding: 10px;">&nbsp;</td>
+        <td>Pour lecture</td>
+        <td style="padding: 10px;">&nbsp;</td>
+        <td>Exploitation</td>
     </tr>
 </table>
- <p style="margin-right: 50px;"><span class="right-align">Sikasso, le {{ date('d-m-Y') }}</span></p>
+ <p style="margin-right: 50px;"><span class="right-align">Bamako, le {{ date('d-m-Y') }}</span></p>
  <br style=" margin-bottom: -10px;">
- <p class="signature"><span class="right-align"><u>Le Trésorerier Payeur</u></span></p><br>
+ <p class="signature">
+    <span class="right-align">
+        <u>{{ $receptionCourrier->signataire ? $receptionCourrier->signataire->fonction : 'Fonction non disponible' }}</u>
+    </span>
+</p><br>
  <p><center><u><b>DIVISION</b></u></center></p><br>                
     <p class="signature">Agent Traitant <span class="right-align"><u>Le Chef de Division</u></span></p>               
  </div> 
+ <footer>
+    <div class="footer-content">
+      <p>Adresse : {Votre Adresse}</p>
+    </div>
+</footer>
 </body>
 </html>

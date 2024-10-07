@@ -6,6 +6,7 @@ use App\Models\ReceptionCourrier;
 use App\Models\Courrier;
 use App\Models\Service;
 use App\Models\Personnel;
+use App\Models\Signataire;
 use Illuminate\Http\Request;
 use HepplerDotNet\FlashToastr\Flash;
 use Dompdf\Dompdf;
@@ -54,10 +55,11 @@ class ReceptionCourrierController extends Controller
     // Exécuter la requête et obtenir les résultats
     /* $receptionCourriers = $query->get(); */
     $services = Service::all();
+    $signataires = Signataire::all();
     $courriers = Courrier::all();
     $personnels = Personnel::all();
     $receptionCourriersWithImputations = ReceptionCourrier::with('imputations')->get();
-    return view('pages.reception_courriers.index', compact('receptionCourriers', 'services', 'courriers', 'personnels','receptionCourriersWithImputations'));
+    return view('pages.reception_courriers.index', compact('receptionCourriers', 'services', 'courriers', 'personnels','receptionCourriersWithImputations','signataires'));
 }
 
 public function create()
@@ -65,11 +67,11 @@ public function create()
     $courriers = Courrier::all();
     $services = Service::all();
     $personnels = Personnel::all();
-
+    $signataires = Signataire::all();
     // Générer une référence unique
     $reference = $this->generateUniqueReference();
 
-    return view('pages.reception_courriers.create', compact('courriers', 'services', 'personnels', 'reference'));
+    return view('pages.reception_courriers.create', compact('courriers', 'services', 'personnels', 'reference','signataires'));
 }
 
 private function generateUniqueReference()
@@ -107,6 +109,7 @@ public function store(Request $request)
         'nbre_piece' => 'required|integer|min:1',
         'charger_courrier' => 'nullable|file|mimes:pdf|max:2048',
         'statut' => 'required|in:Traité,Reçu,en cours de traitement,Rejeté',
+        'id_signataire' => 'required|exists:signataires,id_signataire',
     ]);
 
     // Génération automatique de la référence
@@ -145,14 +148,16 @@ public function store(Request $request)
         $services = Service::all();
         $courriers = Courrier::all();
         $personnels = Personnel::all();
-        return view('pages.reception_courriers.show', compact('receptionCourrier','services','courriers','personnels'));
+        $signataires = Signataire::all();
+        return view('pages.reception_courriers.show', compact('receptionCourrier','services','courriers','personnels','signataires'));
     }
     public function voir(ReceptionCourrier $receptionCourrier)
     {
         $services = Service::all();
         $courriers = Courrier::all();
         $personnels = Personnel::all();
-        return view('pages.reception_courriers.voir', compact('receptionCourrier','services','courriers','personnels'));
+        $signataires = Signataire::all();
+        return view('pages.reception_courriers.voir', compact('receptionCourrier','services','courriers','personnels','signataires'));
     }
  
 
@@ -161,7 +166,8 @@ public function store(Request $request)
         $services = Service::all();
         $courriers = Courrier::all();
         $personnels = Personnel::all();
-        return view('pages.reception_courriers.edit', compact('receptionCourrier','services','courriers','personnels'));
+        $signataires = Signataire::all();
+        return view('pages.reception_courriers.edit', compact('receptionCourrier','services','courriers','personnels','signataires'));
     }
 
     public function update(Request $request, ReceptionCourrier $receptionCourrier)
@@ -181,6 +187,7 @@ public function store(Request $request)
             'nbre_piece' => 'required|integer|min:1',
             'charger_courrier' => 'file|mimes:pdf|max:2048',
             'statut' => 'required|in:Traité,Reçu,en cours de traitement,Rejeté',
+            'id_signataire' => 'required|exists:signataires,id_signataire',
         ]);
         // Traitement du fichier chargé
         if ($request->hasFile('charger_courrier')) {

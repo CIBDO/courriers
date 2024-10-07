@@ -81,7 +81,7 @@
                                     <th>Division</th>
                                     <th>Agent concerné</th>
                                     <th>Annotation</th>
-                                    <th>Statut</th>
+                                   {{--  <th>Statut</th> --}}
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -95,11 +95,12 @@
                                     <td>{{ $courrierInterne->personnel->prenom_personnel }} {{ $courrierInterne->personnel->nom_personnel }}</td>
                                     {{-- <td>{{ $courrierInterne->signataire->nom }}</td> --}}
                                     <td>{{ $courrierInterne->disposition->nom_disposition }}</td>
-                                    <td>{{ $courrierInterne->statut }}</td>
+                                    {{-- <td>{{ $courrierInterne->statut }}</td> --}}
                                     <td>
                                         <a href="{{ route('courrier-internes.edit', $courrierInterne->id_courrierinterne) }}"  class="btn btn-primary"><i class="la la-pencil"></i></a>
                                         {{-- <a href="{{ route('courrier-internes.pdf', $courrierInterne->id_courrierinterne) }}" class="btn btn-info" target="_blank"><i class="la la-print"></i></a> --}}
-                                        <a href="{{ route('courrier-internes.show', $courrierInterne->id_courrierinterne) }}" class="btn btn-primary"><i class="la la la-info-circle"></i></a>
+                                        {{-- <a href="{{ route('courrier-internes.pdf', $courrierInterne->id_courrierinterne) }}" class="btn btn-primary"><i class="la la la-info-circle"></i></a> --}}
+                                        <a href="{{ route('courrier-internes.pdf', $courrierInterne->id_courrierinterne) }}" class="btn btn-info" target="_blank"><i class="la la-print"></i></a>
                                         <form action="{{ route('courrier-internes.destroy', $courrierInterne->id_courrierinterne) }}" method="POST" style="display: inline;">
                                             @csrf
                                             @method('DELETE')

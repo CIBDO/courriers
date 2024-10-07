@@ -81,7 +81,7 @@
                                     <th>Date d'Arrivée</th>
                                     <th>Expéditeur</th>
                                     <th>Type de Courrier</th>
-                                    <th>Statut</th>
+                                    {{-- <th>Statut</th> --}}
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -93,7 +93,7 @@
                                     <td>{{ $receptionCourrier->date_arrivee }}</td>
                                     <td>{{ $receptionCourrier->expeditaire }}</td>
                                     <td>{{ $receptionCourrier->courrier->type_courrier }}</td>
-                                    <td>{{ $receptionCourrier->statut }}</td>
+                                    {{-- <td>{{ $receptionCourrier->statut }}</td> --}}
                                     <td>
                                         <a href="{{ route('reception_courriers.edit', $receptionCourrier->id_courrier_reception) }}"  class="btn btn-primary"><i class="la la-pencil"></i></a>
                                         {{-- <a href="{{ route('reception_courriers.show', $receptionCourrier->id_courrier_reception) }}" class="btn btn-info"><i class="la la-print"></i></a> --}}

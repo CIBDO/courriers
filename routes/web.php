@@ -3,9 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
-/* use App\Http\Controllers\UserController; */
-use App\Http\Controllers\User\UserController;
-use App\Http\Controllers\DashboardController;
+ use App\Http\Controllers\UserController; 
+/* use App\Http\Controllers\User\UserController;
+ */use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ProfilController;
@@ -22,6 +22,7 @@ use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\CourrierInterneController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\StructureController;
 use App\Http\Controllers\UserController as ControllersUserController;
 
   Route::get('/', function () {
@@ -97,15 +98,21 @@ Route::middleware(['auth'])->group(function () {
         // Attachments routes
         Route::post('/attachments/upload', [AttachmentController::class, 'upload']);
         Route::get('/attachments/{attachment}', [AttachmentController::class, 'show']);
-        Route::get('/reception_courriers/{id_reception_courrier}/pdf', [ReceptionCourrierController::class, 'generatePdf'])->name('reception_courriers.pdf');
+       /*  Route::get('/reception_courriers/{id_reception_courrier}/pdf', [ReceptionCourrierController::class, 'generatePdf'])->name('reception_courriers.pdf'); */
         Route::post('/attachments/upload', [AttachmentController::class, 'upload']);
         Route::get('/attachments/{attachment}', [AttachmentController::class, 'show']);
-        Route::get('/reception_courriers/{id_courrier_reception}/download',[ReceptionCourrierController::class,'downloadFile'] )->name('reception_courriers.download');
+        /* Route::get('/reception_courriers/{id_courrier_reception}/download',[ReceptionCourrierController::class,'downloadFile'] )->name('reception_courriers.download'); */
         Route::delete('/reception_courriers/{id_courrier_reception}/delete_file', [ReceptionCourrierController::class,'deleteFile'])->name('reception_courriers.delete_file');
         Route::get('/reception_courriers/{id}/pdf', [ReceptionCourrierController::class, 'showPdf'])->name('reception_courriers.show_pdf');
         Route::get('/reception_courriers/{id}/download_pdf', [ReceptionCourrierController::class, 'downloadPdf'])->name('reception_courriers.download_pdf');
         // Courrier interne routes
         Route::resource('courrier-internes', CourrierInterneController::class);
+
+        Route::get('/courrier-internes/{id_courrier_interne}/pdf', [CourrierInterneController::class, 'showPdf'])->name('courrier_internes.show_pdf');
+        Route::get('/courrier-internes/{id_courrier_interne}/download_pdf', [CourrierInterneController::class, 'downloadPdf'])->name('courrier_internes.download_pdf');
+        // routes/web.php
+        Route::get('/courrier-internes/{id}/pdf', [CourrierInterneController::class, 'generatePDF'])->name('courrier-internes.pdf');
+        Route::resource('structures', StructureController::class);
 
    /*  }); */
 

@@ -88,19 +88,19 @@
                                       <th>Date d'Arrivée</th>
                                       <th>Expéditeur</th>
                                       <th>Type de Courrier</th>
-                                      <th>Statut</th>
+                                     {{--  <th>Statut</th> --}}
                                       <th>Action</th>
                                   </tr>
                               </thead>
                               <tbody>
-                                  @foreach($receptionCourriers as $receptionCourrier)
+                                  @foreach($receptionCourriers->sortByDesc('date_arrivee') as $receptionCourrier)
                                   <tr>
                                       <td>{{ $receptionCourrier->reference }}</td>
                                       <td>{{ $receptionCourrier->bordereau }}</td>
                                       <td>{{ $receptionCourrier->date_arrivee }}</td>
                                       <td>{{ $receptionCourrier->expeditaire }}</td>
                                       <td>{{ $receptionCourrier->courrier->type_courrier }}</td>
-                                      <td>{{ $receptionCourrier->statut }}</td>
+                                      {{-- <td>{{ $receptionCourrier->statut }}</td> --}}
                                       <td>
                                           {{-- <a href="{{ route('reception_courriers.edit', $receptionCourrier->id_courrier_reception) }}" class="btn btn-primary"><i class="la la-pencil"></i></a> --}}
                                           {{-- <a href="{{ route('reception_courriers.show', $receptionCourrier->id_courrier_reception) }}" class="btn btn-info"><i class="la la-print"></i></a> --}}
@@ -123,30 +123,22 @@
                   </div>
               </div>
               <script>
-    $(document).ready(function () {
-        $('#searchButton').click(function () {
-            var searchText = $('#searchInput').val().toLowerCase();
-            if (searchText.trim() === '') { // Si aucun texte n'est saisi
-                $('tbody tr').show(); // Afficher toutes les lignes du tableau
-            } else {
-                $('tbody tr').each(function () {
-                    var found = false;
-                    $(this).each(function () {
-                        if ($(this).text().toLowerCase().indexOf(searchText) !== -1) {
-                            found = true;
-                            return false; // Sortir de la boucle interne
-                        }
+                $(document).ready(function () {
+                    $('#searchInput').on('keyup', function () {
+                        var searchText = $(this).val().toLowerCase().trim();
+            
+                        $('tbody tr').each(function () {
+                            var rowText = $(this).text().toLowerCase();
+                            if (rowText.indexOf(searchText) !== -1) {
+                                $(this).show(); // Afficher la ligne si elle contient le texte de recherche
+                            } else {
+                                $(this).hide(); // Masquer la ligne sinon
+                            }
+                        });
                     });
-                    if (found) {
-                        $(this).show();
-                    } else {
-                        $(this).hide();
-                    }
                 });
-            }
-        });
-    });
-</script>
+            </script>
+            
           </div>
 
       </div>
