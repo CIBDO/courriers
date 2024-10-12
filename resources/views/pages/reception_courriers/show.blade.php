@@ -128,8 +128,8 @@ footer {
 <body>  
 
 <div class="header">
-    <p>DIRECTION NATIONALE DU TRESOR <span class="right-align">REPUBLIQUE DU MALI</span></p>
-    <p>ET DE LA COMPTABILITE PUBLIQUE <span class="right-align">Un Peuple - Un But - Une Foi</span> </p>
+    <p>DIRECTION NATIONALE DU TRESOR <span style="float: right;">REPUBLIQUE DU MALI</span></p>
+    <p>ET DE LA COMPTABILITE PUBLIQUE <span style="float: right;">Un Peuple - Un But - Une Foi</span> </p>
     <p style="margin-left: 45px;">_=_=_=_=_=_=_=_</p>
     <p >TRESORERIER REGIONAL DE SIKASSO</p>
 </div>
